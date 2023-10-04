@@ -4,6 +4,6 @@ namespace RentaCar.Core.Entities
 {
     public class CarPhoto:BaseEntity
     {
-
+       
     }
 }
