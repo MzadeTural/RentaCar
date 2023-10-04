@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using RentaCar.Core.Entities;
 using RentaCar.Core.Entities.Common;
 
 namespace RentaCar.DataAccess.Contexts
 {
-    public class RentaCarContext:DbContext
+    public class RentaCarContext: IdentityDbContext<AppUser>
     {
         public RentaCarContext(DbContextOptions<RentaCarContext> options) : base(options) { }
 
