@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using RentaCar.Business.Services;
 using RentaCar.DataAccess.Contexts;
+using RentaCar.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDataAccesServices();
+builder.Services.AddBusinessServices();
 
-builder.Services.AddDbContext<RentaCarContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration["ConnectionStrings:Default"]);
-});
 
 var app = builder.Build();
 
