@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RentaCar.DataAccess.Repositories.Implementations
 {
-    partial class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
 
         private readonly RentaCarContext _context;
