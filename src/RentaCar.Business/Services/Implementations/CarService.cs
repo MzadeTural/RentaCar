@@ -1,13 +1,14 @@
 ﻿using RentaCar.Business.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RentaCar.Core.Entities;
+
 
 namespace RentaCar.Business.Services.Implementations
 {
-    public class CarService:ICarService
+    public class CarService : ICarService
     {
+        public Task<List<Car>> LoadMore(int page)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
