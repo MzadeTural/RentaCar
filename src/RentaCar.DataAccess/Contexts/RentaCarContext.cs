@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RentaCar.Core.Entities;
 using RentaCar.Core.Entities.Common;
+using RentaCar.DataAccess.Configurations;
 
 namespace RentaCar.DataAccess.Contexts
 {
@@ -11,7 +12,23 @@ namespace RentaCar.DataAccess.Contexts
 
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CarConfiguration());
+            modelBuilder.ApplyConfiguration(new CarPhotoConfiguration());
+            modelBuilder.ApplyConfiguration(new FullTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new GearBoxConfiguration());
+            modelBuilder.ApplyConfiguration(new HeroConfiguration());
+            modelBuilder.ApplyConfiguration(new LocationConfiguration());
+            modelBuilder.ApplyConfiguration(new ModelConfiguration());
+            modelBuilder.ApplyConfiguration(new ReservationConfiguration());
+            modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
+            modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
+            modelBuilder.ApplyConfiguration(new UserCardConfiguration());
 
+            base.OnModelCreating(modelBuilder);
+        }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
