@@ -42,6 +42,14 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
             modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Reservations)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SubscribtionRecord>()
+                .Ignore(e => e.AppUser);
+
             base.OnModelCreating(modelBuilder);
         }
 

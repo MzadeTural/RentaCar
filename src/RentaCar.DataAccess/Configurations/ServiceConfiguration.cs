@@ -14,7 +14,7 @@ namespace RentaCar.DataAccess.Configurations
         {
 
             ConfigurationManager manager = new ConfigurationManager();
-            manager.SetBasePath(Directory.GetCurrentDirectory() + "../../../RentaCar.Api");
+            manager.SetBasePath(Directory.GetCurrentDirectory() + "../../RentaCar.Api");
             manager.AddJsonFile("appsettings.json");
             return manager.GetConnectionString("Default");
         }
