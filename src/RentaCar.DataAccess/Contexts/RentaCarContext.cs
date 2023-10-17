@@ -21,7 +21,7 @@ namespace RentaCar.DataAccess.Contexts
         public DbSet<Model> Models { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Subscribtion> Subscribtions { get; set; }
-        public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
+        //public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
         public DbSet<UserCard> UserCards { get; set; }
 
 
@@ -38,9 +38,13 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new ModelConfiguration());
             modelBuilder.ApplyConfiguration(new ReservationConfiguration());
             modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
-            modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
+            //modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
             modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
+            modelBuilder.Entity<Reservation>()
+    .HasOne(r => r.Car)
+    .WithMany(c => c.Reservations)
+    .OnDelete(DeleteBehavior.Restrict); // veya DeleteBehavior.Cascade veya DeleteBehavior.SetNull
 
             base.OnModelCreating(modelBuilder);
         }
