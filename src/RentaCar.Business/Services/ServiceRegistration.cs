@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RentaCar.Business.Services.Implementations;
 using RentaCar.Business.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.Business.Services
 {
@@ -16,7 +11,8 @@ namespace RentaCar.Business.Services
 
 
             services.AddScoped<ICarService, CarService>();
-           
+            services.AddScoped<ITokenHandler, TokenHandler>();
+
         }
     }
 }

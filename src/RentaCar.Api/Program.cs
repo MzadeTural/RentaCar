@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+using RentaCar.Api.Extensions;
 using RentaCar.Business.Services;
-using RentaCar.DataAccess.Contexts;
+
 using RentaCar.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataAccesServices();
 builder.Services.AddBusinessServices();
+builder.Services.AddJwtAuthenticationService(builder.Configuration["Jwt:Audience"], builder.Configuration["Jwt:Issuer"], builder.Configuration["Jwt:SigningKey"]);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
