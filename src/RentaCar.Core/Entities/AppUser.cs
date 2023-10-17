@@ -9,5 +9,6 @@ namespace RentaCar.Core.Entities
         public List<CurrentLoaction> CurrentLoactions { get; set; }
         public List<Location> Locations { get; set; }
         public List<UserCard> Cards { get; set; }
+        public List<SubscribtionRecord> SubscribtionRecords { get; set; }
     }
 }
