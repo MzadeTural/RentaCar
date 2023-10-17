@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RentaCar.DataAccess.Migrations
 {
-    public partial class CreateTable : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -345,33 +345,6 @@ namespace RentaCar.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubscribtionRecord",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SubscribtionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubscribtionRecord", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SubscribtionRecord_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SubscribtionRecord_Subscribtions_SubscribtionId",
-                        column: x => x.SubscribtionId,
-                        principalTable: "Subscribtions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CarPhotos",
                 columns: table => new
                 {
@@ -560,16 +533,6 @@ namespace RentaCar.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubscribtionRecord_AppUserId",
-                table: "SubscribtionRecord",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubscribtionRecord_SubscribtionId",
-                table: "SubscribtionRecord",
-                column: "SubscribtionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserCards_AppUserId",
                 table: "UserCards",
                 column: "AppUserId");
@@ -608,7 +571,7 @@ namespace RentaCar.DataAccess.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "SubscribtionRecord");
+                name: "Subscribtions");
 
             migrationBuilder.DropTable(
                 name: "UserCards");
@@ -624,9 +587,6 @@ namespace RentaCar.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Locations");
-
-            migrationBuilder.DropTable(
-                name: "Subscribtions");
 
             migrationBuilder.DropTable(
                 name: "FuelTypes");

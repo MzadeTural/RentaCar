@@ -12,8 +12,8 @@ using RentaCar.DataAccess.Contexts;
 namespace RentaCar.DataAccess.Migrations
 {
     [DbContext(typeof(RentaCarContext))]
-    [Migration("20231017120741_Create-Record-Table")]
-    partial class CreateRecordTable
+    [Migration("20231017123013_Create-Database")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -614,34 +614,6 @@ namespace RentaCar.DataAccess.Migrations
                     b.ToTable("Subscribtions");
                 });
 
-            modelBuilder.Entity("RentaCar.Core.Entities.SubscribtionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("SubscribtionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("SubscribtionId");
-
-                    b.ToTable("SubscribtionRecord");
-                });
-
             modelBuilder.Entity("RentaCar.Core.Entities.UserCard", b =>
                 {
                     b.Property<Guid>("Id")
@@ -849,25 +821,6 @@ namespace RentaCar.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RentaCar.Core.Entities.SubscribtionRecord", b =>
-                {
-                    b.HasOne("RentaCar.Core.Entities.AppUser", "AppUser")
-                        .WithMany("SubscribtionRecords")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RentaCar.Core.Entities.Subscribtion", "Subscribtion")
-                        .WithMany()
-                        .HasForeignKey("SubscribtionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Subscribtion");
-                });
-
             modelBuilder.Entity("RentaCar.Core.Entities.UserCard", b =>
                 {
                     b.HasOne("RentaCar.Core.Entities.AppUser", "AppUser")
@@ -886,8 +839,6 @@ namespace RentaCar.DataAccess.Migrations
                     b.Navigation("Locations");
 
                     b.Navigation("Reservations");
-
-                    b.Navigation("SubscribtionRecords");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Brand", b =>
