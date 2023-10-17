@@ -14,8 +14,8 @@ namespace RentaCar.DataAccess.Configurations
             builder.Property(x => x.RentalStartDate).IsRequired();
             builder.Property(x => x.RentalEndDate).IsRequired();
             builder.Property(x => x.TotalAmount).IsRequired();
-            builder.Property(x => x.EmergencyEmail).IsRequired().HasMaxLength(255); // ?
-            builder.Property(x => x.EmetgencyPhoneNumber).IsRequired().HasMaxLength(255); // ?
+            builder.Property(x => x.EmergencyEmail).HasMaxLength(255);
+            builder.Property(x => x.EmetgencyPhoneNumber).IsRequired().HasMaxLength(255);
             builder.Property(x => x.TakeAwayLoactionId).IsRequired();
             builder.Property(x => x.DeliveryLocationId).IsRequired();
         }

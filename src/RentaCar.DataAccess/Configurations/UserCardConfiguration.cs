@@ -10,7 +10,7 @@ namespace RentaCar.DataAccess.Configurations
         {
             builder.Property(x => x.FullName).IsRequired().HasMaxLength(255);
             builder.Property(x => x.CardNumber).IsRequired().HasMaxLength(16);
-            builder.Property(x => x.ExpireDate).IsRequired(); // stringmi olsun? acabaaa
+            builder.Property(x => x.ExpireDate).IsRequired();
             builder.Property(x => x.CVV).IsRequired().HasMaxLength(3);
             builder.Property(x => x.UserId).IsRequired();
         }

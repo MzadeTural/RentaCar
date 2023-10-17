@@ -10,6 +10,20 @@ namespace RentaCar.DataAccess.Contexts
     {
         public RentaCarContext(DbContextOptions<RentaCarContext> options) : base(options) { }
 
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarPhoto> CarPhotos { get; set; }
+        public DbSet<CurrentLoaction> CurrentLoactions { get; set; }
+        public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<GearBox> GearBoxes { get; set; }
+        public DbSet<Hero> Heroes { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Subscribtion> Subscribtions { get; set; }
+        public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
+        public DbSet<UserCard> UserCards { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,6 +40,7 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
             modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
+            modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

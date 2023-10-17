@@ -8,7 +8,7 @@ namespace RentaCar.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            builder.Property(x => x.OwnerId).IsRequired() ;
+            builder.Property(x => x.OwnerId).IsRequired();
             builder.Property(x => x.MainPhotoUrl).IsRequired().HasMaxLength(150);
             builder.Property(x => x.Description).HasMaxLength(250);
             builder.Property(x => x.GearBoxId).IsRequired();

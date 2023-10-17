@@ -1,16 +1,12 @@
 ﻿using RentaCar.Core.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RentaCar.Core.Entities
 {
     public class Reservation:BaseSectionEntity
     {
-        public Guid OwnerId { get; set; }
-        public Guid UserId { get; set; }
+        public string OwnerId { get; set; }
+        public string UserId { get; set; }
         public AppUser User{ get; set; }
         public Guid CarId { get; set; }
         public Car Car { get; set; }
@@ -22,5 +18,6 @@ namespace RentaCar.Core.Entities
         public Guid TakeAwayLoactionId { get; set; }
         public Guid DeliveryLocationId { get; set; }
         public Location Location { get; set; }
+        public Guid LocationId { get; set; }
     }
 }

@@ -6,6 +6,7 @@ namespace RentaCar.Core.Entities
     {
         public DateTime CreatedAt { get; set; }
         public List<Reservation> Reservations { get; set; }
+        public List<CurrentLoaction> CurrentLoactions { get; set; }
         public List<Location> Locations { get; set; }
         public List<UserCard> Cards { get; set; }
     }
