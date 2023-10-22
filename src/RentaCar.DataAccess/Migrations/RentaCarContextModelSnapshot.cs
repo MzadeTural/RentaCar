@@ -177,6 +177,10 @@ namespace RentaCar.DataAccess.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -620,7 +624,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -632,6 +636,8 @@ namespace RentaCar.DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("SubscribtionId");
 
@@ -847,6 +853,12 @@ namespace RentaCar.DataAccess.Migrations
 
             modelBuilder.Entity("RentaCar.Core.Entities.SubscribtionRecord", b =>
                 {
+                    b.HasOne("RentaCar.Core.Entities.AppUser", null)
+                        .WithMany("SubscribtionRecords")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RentaCar.Core.Entities.Subscribtion", "Subscribtion")
                         .WithMany()
                         .HasForeignKey("SubscribtionId")
@@ -874,6 +886,8 @@ namespace RentaCar.DataAccess.Migrations
                     b.Navigation("Locations");
 
                     b.Navigation("Reservations");
+
+                    b.Navigation("SubscribtionRecords");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Brand", b =>
