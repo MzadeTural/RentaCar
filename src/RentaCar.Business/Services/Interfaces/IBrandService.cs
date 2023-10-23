@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RentaCar.Business.DTOs.BrandDtos;
 
 namespace RentaCar.Business.Services.Interfaces
 {
-    internal interface IBrandService
+    public interface IBrandService
     {
+        Task<bool> CreateBrandAsync(CreateBrandDto brand);
+        Task<bool> UpdateBrandAsync(string id, UpdateBrandDto brand);
+        Task<bool> DeleteBrandAsync(string id);
     }
 }

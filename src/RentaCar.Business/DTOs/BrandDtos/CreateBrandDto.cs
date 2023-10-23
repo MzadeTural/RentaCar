@@ -4,6 +4,6 @@ namespace RentaCar.Business.DTOs.BrandDtos
 {
     public record CreateBrandDto(
     string Name,
-    string Icon
+    IFormFile Icon
 );
 }

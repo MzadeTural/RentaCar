@@ -47,10 +47,8 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public async Task<bool> IsExistAsyncI(Expression<Func<T, bool>> expression)
           => await GetQuery().AnyAsync(expression);
 
-        public Task<int> SaveAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<int> SaveAsync()
+            => await _context.SaveChangesAsync();
 
         public void SoftDelete(T entity)
             => entity.IsDeleted = true;
