@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RentaCar.Core.Entities.Common;
 using RentaCar.DataAccess.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.DataAccess.Repositories.Implementations
 {
