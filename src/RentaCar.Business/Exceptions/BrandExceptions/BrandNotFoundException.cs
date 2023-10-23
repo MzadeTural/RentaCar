@@ -14,7 +14,7 @@ namespace RentaCar.Business.Exceptions.BrandExceptions
 
         public BrandNotFoundException()
         {
-            errorMessage = "Brand yaradila bilmedi";
+            errorMessage = "Can not create Brand";
         }
 
         public BrandNotFoundException(string message) : base(message)
