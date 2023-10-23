@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using RentaCar.Api.Extensions;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Exceptions;
+using RentaCar.Business.Helpers.Settings;
+using RentaCar.Business.MappingProfiles;
 using RentaCar.Business.Services;
 
 using RentaCar.DataAccess.Repositories;
@@ -17,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataAccesServices();
 builder.Services.AddBusinessServices();
+builder.Services.AddAutoMapper(typeof(UserMapper));
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddJwtAuthenticationService(builder.Configuration["Jwt:Audience"], builder.Configuration["Jwt:Issuer"], builder.Configuration["Jwt:SigningKey"]);
 var app = builder.Build();
 

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\RentaCar.Business\RentaCar.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\users\" />
+  </ItemGroup>
+
 </Project>

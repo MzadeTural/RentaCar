@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace RentaCar.Business.Exceptions
 {
@@ -11,6 +6,7 @@ namespace RentaCar.Business.Exceptions
     {
         HttpStatusCode HttpStatusCode { get; }
         string errorMessage { get; }
+        virtual string? ErrorDetail { get => "Not any error detail"; }
 
     }
 }
