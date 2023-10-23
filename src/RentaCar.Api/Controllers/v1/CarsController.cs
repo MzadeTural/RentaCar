@@ -1,15 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RentaCar.Business.DTOs.Common;
+using RentaCar.Business.Enums;
 using System.Net;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace RentaCar.Api.Controllers
+namespace RentaCar.Api.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CarController : ControllerBase
     {
+        public CarController()
+        {
+            
+        }
+
         // GET: api/<CarController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -26,9 +32,12 @@ namespace RentaCar.Api.Controllers
 
         // POST api/<CarController>
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] string value)
         {
+
             return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Car created successefully"));
+
         }
 
         // PUT api/<CarController>/5

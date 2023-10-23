@@ -12,6 +12,11 @@ namespace RentaCar.Business.Services
 
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<ITokenHandler, TokenHandler>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddTransient<IMailService, MailService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
+
 
         }
     }
