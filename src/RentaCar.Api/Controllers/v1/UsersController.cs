@@ -31,6 +31,7 @@ namespace RentaCar.Api.Controllers.v1
             return StatusCode((int)response.httpStatusCode, response.Message);
         }
         [HttpPost("createrole")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task CreateRole()
         {
             foreach (var role in Enum.GetValues(typeof(Roles)))
