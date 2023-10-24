@@ -7,11 +7,6 @@ using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using RentaCar.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -29,6 +24,8 @@ namespace RentaCar.Business.Services.Implementations
             _mapper = mapper;
             _brandRepository = brandRepository;
         }
+        public IQueryable<Brand> GetAll()
+        =>   _brandRepository.GetAll();
         public async Task<bool> CreateBrandAsync(CreateBrandDto brand)
         {
             string file = await _fileService.CreateFileAsync(brand.Icon, _environment.WebRootPath + "/uploads/brands/");
@@ -38,7 +35,6 @@ namespace RentaCar.Business.Services.Implementations
             await _brandRepository.SaveAsync();
             return true;
         }
-
 
         public async Task<bool> UpdateBrandAsync(Guid id, UpdateBrandDto brand)
         {
@@ -58,6 +54,7 @@ namespace RentaCar.Business.Services.Implementations
                 {
                     throw new BrandNotFoundException("Name isExist Database");
                 }
+                model.Name=brand.Name;
             }
             if(brand.Icon != null)
             {
@@ -73,5 +70,7 @@ namespace RentaCar.Business.Services.Implementations
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

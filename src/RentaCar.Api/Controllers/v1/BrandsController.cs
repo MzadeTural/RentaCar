@@ -17,12 +17,31 @@ namespace RentaCar.Api.Controllers.v1
         {
             _brandService = brandService;
         }
+        [HttpGet]
+        [Route("/all")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public IActionResult GetAll()
+        {
+            var response = _brandService.GetAll();
+            return Ok(response);
+
+        }
         [HttpPost]
+        [Route("/create")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] CreateBrandDto createBrandDto)
         {
             var response = await _brandService.CreateBrandAsync(createBrandDto);
             return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Brand created successefully"));
+
+        }
+        [HttpPost]
+        [Route("/update/{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<IActionResult> Update(Guid id,[FromForm] UpdateBrandDto updateBrandDto)
+        {
+            var response = await _brandService.UpdateBrandAsync(id, updateBrandDto);
+            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Brand updated successefully"));
 
         }
     }
