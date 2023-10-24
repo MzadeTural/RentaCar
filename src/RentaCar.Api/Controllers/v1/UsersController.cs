@@ -30,6 +30,16 @@ namespace RentaCar.Api.Controllers.v1
 
             return StatusCode((int)response.httpStatusCode, response.Message);
         }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailDto confirmEmail)
+        {
+            // var response =  var response = await _userService.CreateAsync(createUserDto);
+
+            //return StatusCode((int)response.httpStatusCode, response.Message);
+            return Ok();
+        }
+
         [HttpPost("createrole")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task CreateRole()
