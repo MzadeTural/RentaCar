@@ -16,7 +16,7 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         }
         public DbSet<T> Table => _context.Set<T>();
 
-        public async Task CreateAsync(T entity) => await _context.Set<T>().AddAsync(entity);
+        public async Task CreateAsync(T entity) => await Table.AddAsync(entity);
 
         public void Delete(T entity)
         {

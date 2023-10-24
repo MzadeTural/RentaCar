@@ -7,11 +7,6 @@ using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using RentaCar.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -22,13 +17,15 @@ namespace RentaCar.Business.Services.Implementations
         private IMapper _mapper;
         private IBrandRepository _brandRepository;
 
-        public BrandService(IFileService fileService, IWebHostEnvironment environment,IMapper mapper,IBrandRepository brandRepository)
+        public BrandService(IFileService fileService, IWebHostEnvironment environment, IMapper mapper, IBrandRepository brandRepository)
         {
             _fileService = fileService;
             _environment = environment;
             _mapper = mapper;
             _brandRepository = brandRepository;
         }
+        public IQueryable<Brand> GetAll()
+        => _brandRepository.GetAll();
         public async Task<bool> CreateBrandAsync(CreateBrandDto brand)
         {
             string file = await _fileService.CreateFileAsync(brand.Icon, _environment.WebRootPath + "/uploads/brands/");
@@ -39,13 +36,14 @@ namespace RentaCar.Business.Services.Implementations
             return true;
         }
 
-
         public async Task<bool> UpdateBrandAsync(Guid id, UpdateBrandDto brand)
         {
             var model = await _brandRepository.GetSingleAysnc(x => x.Id == id);
             if (model is null) throw new BrandNotFoundException();
 
-            if (brand.Name!=null)
+            if (model.IsDeleted) throw new BrandNotFoundException();
+
+            if (brand.Name != null)
             {
                 bool isExist = model.Name.ToLower().Trim() == brand.Name.ToLower().Trim();
                 if (isExist)
@@ -58,8 +56,9 @@ namespace RentaCar.Business.Services.Implementations
                 {
                     throw new BrandNotFoundException("Name isExist Database");
                 }
+                model.Name = brand.Name;
             }
-            if(brand.Icon != null)
+            if (brand.Icon != null)
             {
                 string file = await _fileService.CreateFileAsync(brand.Icon, _environment.WebRootPath + "/uploads/brands/");
                 model.IconUrl = file;
@@ -69,9 +68,20 @@ namespace RentaCar.Business.Services.Implementations
             return true;
         }
 
-        public Task<bool> DeleteBrandAsync(Guid id)
+        public async Task<bool> DeleteBrandAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var model = await _brandRepository.GetSingleAysnc(x => x.Id == id);
+            if (model is null) throw new BrandNotFoundException();
+            if (!model.IsDeleted)
+            {
+                model.IsDeleted = true;
+                _brandRepository.Update(model);
+                await _brandRepository.SaveAsync();
+                return true;
+            }
+            throw new BrandNotFoundException();
         }
+
+
     }
 }
