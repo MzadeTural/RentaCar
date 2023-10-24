@@ -35,13 +35,22 @@ namespace RentaCar.Api.Controllers.v1
             return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Brand created successefully"));
 
         }
-        [HttpPost]
+        [HttpPut]
         [Route("/update/{id}")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id,[FromForm] UpdateBrandDto updateBrandDto)
         {
             var response = await _brandService.UpdateBrandAsync(id, updateBrandDto);
             return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Brand updated successefully"));
+
+        }
+        [HttpPatch]
+        [Route("/delete/{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var response = await _brandService.DeleteBrandAsync(id);
+            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Brand deleted successefully"));
 
         }
     }
