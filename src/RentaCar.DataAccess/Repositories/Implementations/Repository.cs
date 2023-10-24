@@ -31,10 +31,8 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public IQueryable<T> GetAll()
          => Table.AsQueryable();
 
-        public Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
+            => await Table.Where(expression).FirstOrDefaultAsync();
 
         public async Task<bool> IsExistAsyncI(Expression<Func<T, bool>> expression)
           => await GetQuery().AnyAsync(expression);
