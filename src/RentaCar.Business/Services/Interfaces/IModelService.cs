@@ -9,7 +9,7 @@ namespace RentaCar.Business.Services.Interfaces
         IQueryable<Model> GetAll();
         Task<ResponseDTO> CreateModelAsync(CreateModelDto model);
         Task<ResponseDTO> UpdateModelAsync(Guid id, UpdateModelDto model);
-        Task<bool> DeleteModelAsync(Guid id);
+        Task<ResponseDTO> DeleteModelAsync(Guid id);
     }
 }
 
