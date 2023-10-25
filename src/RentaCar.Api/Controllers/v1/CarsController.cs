@@ -32,7 +32,7 @@ namespace RentaCar.Api.Controllers.v1
 
         // POST api/<CarController>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
         public async Task<IActionResult> Create([FromBody] string value)
         {
 

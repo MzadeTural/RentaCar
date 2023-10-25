@@ -45,7 +45,7 @@ namespace RentaCar.Business.Services.Implementations
 
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            tokenResponseDto.Expiration = DateTime.UtcNow.AddMinutes(second);
+            tokenResponseDto.Expiration = DateTime.Now.AddDays(second);
             JwtSecurityToken jwtSecurityToken = new(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],

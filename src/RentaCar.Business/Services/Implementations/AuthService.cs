@@ -1,18 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using RentaCar.Business.DTOs;
 using RentaCar.Business.DTOs.AuthDtos;
-using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Exceptions.AuthExceptions;
+using RentaCar.Business.Exceptions.AuthExceptions.Token;
+using RentaCar.Business.Exceptions.UserExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -22,30 +16,55 @@ namespace RentaCar.Business.Services.Implementations
         private readonly ITokenHandler _tokenHandler;
         private readonly IUserService _userService;
         private readonly IMailService _mailService;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AuthService(ITokenHandler tokenHandler, IUserService userService, IMailService mailService,UserManager<AppUser> userManager)
+        public AuthService(ITokenHandler tokenHandler, IUserService userService, IMailService mailService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _tokenHandler = tokenHandler;
             _userService = userService;
             _mailService = mailService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<LoginResponseDto> LoginAsync(LoginDto model, int accessTokenLifeTime)
         {
 
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u=>u.UserName==model.UserName);
-            if (user == null)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+
+            if (user is null)
                 throw new AuthenticationFailException();
-            var tokenResponse = await GenerateJwtTokenAsync(user, accessTokenLifeTime);
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+                throw new EmailNotConfirmedException();
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
-            return new()
-            {    
-                TokenResponse = tokenResponse
-            };
+            if (result.Succeeded)
+            {
+
+                var tokenResponse = await GenerateJwtTokenAsync(user, accessTokenLifeTime);
+
+                return new()
+                {
+                    TokenResponse = tokenResponse
+                };
+            }
+            throw new AuthenticationFailException();
         }
+        public async Task<TokenResponseDto> RefreshTokenLoginAsync(string refreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            if (user is null)
+                throw new UserNotFoundException("User not found");
 
+            if (user?.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+                return await GenerateJwtTokenAsync(user, 2);
+            }
+
+            throw new RefreshTokenExpiredException();
+        }
         private async Task<TokenResponseDto> GenerateJwtTokenAsync(AppUser user, int accessTokenLifeTime)
         {
             var tokenResponse = await _tokenHandler.CreateAccessTokenAsync(accessTokenLifeTime, user);
