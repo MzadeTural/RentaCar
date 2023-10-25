@@ -27,7 +27,7 @@ namespace RentaCar.Business.Services.Implementations
         public IQueryable<Model> GetAll()
             => _modelRepository.GetAll();
 
-        public async Task<ResponseDTO> CreateBrandAsync(CreateModelDto model)
+        public async Task<ResponseDTO> CreateModelAsync(CreateModelDto model)
         {
             bool isExistDb = await _modelRepository.IsExistAsync(x => x.Name.ToLower().Trim() == model.Name.ToLower().Trim());
             if (isExistDb)
@@ -44,7 +44,7 @@ namespace RentaCar.Business.Services.Implementations
                          Message: result ? "Model successfully created" : "Something went wrong"
                          );
         }
-        public async Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateModelDto model)
+        public async Task<ResponseDTO> UpdateModelAsync(Guid id, UpdateModelDto model)
         {
             ArgumentNullException.ThrowIfNull(id);
             var dbmodel = await _modelRepository.GetSingleAysnc(x => x.Id == id);
@@ -72,7 +72,7 @@ namespace RentaCar.Business.Services.Implementations
                                 );
         }
 
-        public async Task<bool> DeleteBrandAsync(Guid id)
+        public async Task<bool> DeleteModelAsync(Guid id)
         {
             var model = await _modelRepository.GetSingleAysnc(x => x.Id == id);
             if (model is null) throw new ModelNotFoundException("Model Not Found");

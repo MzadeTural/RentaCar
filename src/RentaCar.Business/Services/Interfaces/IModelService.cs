@@ -7,9 +7,9 @@ namespace RentaCar.Business.Services.Interfaces
 	public interface IModelService
 	{
         IQueryable<Model> GetAll();
-        Task<ResponseDTO> CreateBrandAsync(CreateModelDto model);
-        Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateModelDto model);
-        Task<bool> DeleteBrandAsync(Guid id);
+        Task<ResponseDTO> CreateModelAsync(CreateModelDto model);
+        Task<ResponseDTO> UpdateModelAsync(Guid id, UpdateModelDto model);
+        Task<bool> DeleteModelAsync(Guid id);
     }
 }
 
