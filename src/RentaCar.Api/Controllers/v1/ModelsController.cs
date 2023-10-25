@@ -49,7 +49,7 @@ namespace RentaCar.Api.Controllers.v1
         public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _modelService.DeleteModelAsync(id);
-            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Model deleted successefully"));
+            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(response.httpStatusCode, response.Message));
 
         }
     }

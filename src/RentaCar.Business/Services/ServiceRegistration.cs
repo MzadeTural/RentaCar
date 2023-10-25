@@ -15,6 +15,7 @@ namespace RentaCar.Business.Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IModelService, ModelService>();
         }
     }
 }
