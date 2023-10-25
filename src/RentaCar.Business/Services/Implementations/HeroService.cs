@@ -4,10 +4,8 @@ using RentaCar.Business.DTOs.HeroDtos;
 using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
-using RentaCar.DataAccess.Repositories.Implementations;
 using RentaCar.DataAccess.Repositories.Interfaces;
 using System.Net;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -21,7 +19,7 @@ namespace RentaCar.Business.Services.Implementations
         {
             _fileService = fileService;
             _environment = environment;
-            _heroRepository =heroRepository;
+            _heroRepository = heroRepository;
         }
         public IQueryable<Hero> GetAll()
         => _heroRepository.GetAll();
