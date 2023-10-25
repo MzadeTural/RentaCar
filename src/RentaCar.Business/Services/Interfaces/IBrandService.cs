@@ -9,6 +9,6 @@ namespace RentaCar.Business.Services.Interfaces
         IQueryable<Brand> GetAll();
         Task<ResponseDTO> CreateBrandAsync(CreateBrandDto brand);
         Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateBrandDto brand);
-        Task<bool> DeleteBrandAsync(Guid id);
+        Task<ResponseDTO> DeleteBrandAsync(Guid id);
     }
 }
