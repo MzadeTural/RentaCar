@@ -30,6 +30,7 @@ namespace RentaCar.DataAccess.Repositories
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IHeroRepository, HeroRepository>();
 
         }
 
