@@ -18,7 +18,7 @@ namespace RentaCar.Api.Controllers.v1
             _brandService = brandService;
         }
         [HttpGet]
-        [Route("/all")]
+        [Route("all")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public IActionResult GetAll()
         {
@@ -27,7 +27,7 @@ namespace RentaCar.Api.Controllers.v1
 
         }
         [HttpPost]
-        [Route("/create")]
+        [Route("create")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] CreateBrandDto createBrandDto)
         {
@@ -36,7 +36,7 @@ namespace RentaCar.Api.Controllers.v1
 
         }
         [HttpPut]
-        [Route("/update/{id}")]
+        [Route("update/{id}")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Update(Guid id, [FromForm] UpdateBrandDto updateBrandDto)
         {
@@ -45,7 +45,7 @@ namespace RentaCar.Api.Controllers.v1
 
         }
         [HttpPatch]
-        [Route("/delete/{id}")]
+        [Route("delete/{id}")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
