@@ -28,7 +28,8 @@ namespace RentaCar.DataAccess.Repositories
             AddEntityFrameworkStores<RentaCarContext>().AddDefaultTokenProviders();
 
             services.AddScoped<ICarRepository, CarRepository>();
-        
+            services.AddScoped<IBrandRepository, BrandRepository>();
+
         }
 
       }

@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RentaCar.Core.Entities.Common;
 using RentaCar.DataAccess.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.DataAccess.Repositories.Implementations
 {
@@ -21,10 +16,7 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         }
         public DbSet<T> Table => _context.Set<T>();
 
-        public Task CreateAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task CreateAsync(T entity) => await Table.AddAsync(entity);
 
         public void Delete(T entity)
         {
@@ -39,18 +31,14 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public IQueryable<T> GetAll()
          => Table.AsQueryable();
 
-        public Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
+            => await Table.Where(expression).FirstOrDefaultAsync();
 
         public async Task<bool> IsExistAsyncI(Expression<Func<T, bool>> expression)
           => await GetQuery().AnyAsync(expression);
 
-        public Task<int> SaveAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<int> SaveAsync()
+            => await _context.SaveChangesAsync();
 
         public void SoftDelete(T entity)
             => entity.IsDeleted = true;
