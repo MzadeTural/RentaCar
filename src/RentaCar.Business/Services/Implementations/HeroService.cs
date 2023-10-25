@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.DTOs.HeroDtos;
+using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using RentaCar.DataAccess.Repositories.Implementations;
@@ -41,14 +42,32 @@ namespace RentaCar.Business.Services.Implementations
                          );
         }
 
-        public Task<ResponseDTO> UpdateHeroAsync(Guid id, UpdateHeroDto hero)
+        public async Task<ResponseDTO> UpdateHeroAsync(Guid id, UpdateHeroDto hero)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(id);
+            var model = await _heroRepository.GetSingleAysnc(x => x.Id == id);
+            if (model is null) throw new BrandNotFoundException("Model Not Found");
+            if (model.IsDeleted) throw new BrandNotFoundException("Model Not Found");
+            string file = await _fileService.CreateFileAsync(hero.Image, _environment.WebRootPath + "/uploads/heros/");
+            var result = _heroRepository.Update(model);
+            await _heroRepository.SaveAsync();
+            return new ResponseDTO(
+                                httpStatusCode: result ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                                Message: result ? "Hero successfully modified" : "Something went wrong"
+                                );
         }
 
-        public Task<ResponseDTO> DeleteHeroAsync(Guid id)
+        public async Task<ResponseDTO> DeleteHeroAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var brand = await _heroRepository.GetSingleAysnc(x => x.Id == id);
+            if (brand is null) throw new BrandNotFoundException("Hero Not Found");
+
+            bool result = _heroRepository.SoftDelete(brand);
+            await _heroRepository.SaveAsync();
+            return new ResponseDTO(
+                               httpStatusCode: result ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                               Message: result ? "Hero successfully deleted" : "Something went wrong"
+                               );
         }
     }
 }
