@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\brands\" />
+    <Folder Include="wwwroot\uploads\heros\" />
     <Folder Include="wwwroot\uploads\users\" />
   </ItemGroup>
 
