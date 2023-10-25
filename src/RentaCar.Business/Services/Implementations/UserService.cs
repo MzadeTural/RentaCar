@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Win32;
-using MimeKit;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.DTOs.MailDtos;
 using RentaCar.Business.DTOs.UserDtos;
@@ -75,14 +73,14 @@ namespace RentaCar.Business.Services.Implementations
             if (httpContext is not null)
             {
                 HttpRequest request = httpContext.Request;
-                 url = _linkGenerator.GetUriByAction(
-                    httpContext,
-                    action: "ConfirmEmail",
-                    controller: "Users",
-                    values: new { token, email = user.Email },
-                    scheme: request.Scheme,
-                    host: request.Host
-                );
+                url = _linkGenerator.GetUriByAction(
+                   httpContext,
+                   action: "ConfirmEmail",
+                   controller: "Users",
+                   values: new { token, email = user.Email },
+                   scheme: request.Scheme,
+                   host: request.Host
+               );
             }
             return url;
         }
@@ -95,6 +93,6 @@ namespace RentaCar.Business.Services.Implementations
             return body;
         }
 
-       
+
     }
 }

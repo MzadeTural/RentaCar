@@ -1,18 +1,18 @@
 ﻿using RentaCar.Business.DTOs.CarDtos;
+using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
-
 
 namespace RentaCar.Business.Services.Implementations
 {
     public class CarService : ICarService
     {
-        public Task<bool> CreateBlogAsync(CreateCarDto blog)
+        public Task<ResponseDTO> CreateCarAsync(CreateCarDto blog)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteBlogAsync(string id)
+        public Task<ResponseDTO> DeleteCarAsync(string id)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@ namespace RentaCar.Business.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateBlogAsync(string id, UpdateCarDto blog)
+        public Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto blog)
         {
             throw new NotImplementedException();
         }
