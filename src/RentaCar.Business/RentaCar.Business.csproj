@@ -20,4 +20,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="DTOs\ModelDtos\" />
+    <None Remove="Exceptions\ModelExceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTOs\ModelDtos\" />
+    <Folder Include="Exceptions\ModelExceptions\" />
+  </ItemGroup>
 </Project>
