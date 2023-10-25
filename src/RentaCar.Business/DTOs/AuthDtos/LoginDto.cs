@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace RentaCar.Business.DTOs.AuthDtos
 {
-    public record LoginDto(string UserName);
+    public record LoginDto(string Email,string Password);
     
 }
