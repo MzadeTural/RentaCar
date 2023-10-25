@@ -45,9 +45,13 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public async Task<int> SaveAsync()
             => await _context.SaveChangesAsync();
 
-        public void SoftDelete(T entity)
-            => entity.IsDeleted = true;
+        public bool SoftDelete(T entity)
+        { 
+             entity.IsDeleted = true;
+            return true;
+        }
 
+       
         public bool Update(T entity)
         {
             var data = Table.Update(entity);

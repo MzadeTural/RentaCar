@@ -14,8 +14,6 @@ namespace RentaCar.Business.DTOs.UserDtos
     string Email,
     IFormFile ImageUrl,
     string PhoneNumber,
-    string Password,
-    string PasswordConfirm
-
+    string Password  
 );
 }

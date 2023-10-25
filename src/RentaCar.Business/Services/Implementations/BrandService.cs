@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 using RentaCar.Business.DTOs.BrandDtos;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Exceptions.BrandExceptions;
@@ -41,7 +39,6 @@ namespace RentaCar.Business.Services.Implementations
             var newBrand = _mapper.Map<Brand>(brand);
             newBrand.IconUrl = file;
             var result = await _brandRepository.CreateAsync(newBrand);
-
             await _brandRepository.SaveAsync();
 
             return new ResponseDTO(
@@ -80,18 +77,18 @@ namespace RentaCar.Business.Services.Implementations
 
         }
 
-        public async Task<bool> DeleteBrandAsync(Guid id)
+        public async Task<ResponseDTO> DeleteBrandAsync(Guid id)
         {
-            var model = await _brandRepository.GetSingleAysnc(x => x.Id == id);
-            if (model is null) throw new BrandNotFoundException("Brand Not Found");
-            if (!model.IsDeleted)
-            {
-                model.IsDeleted = true;
-                _brandRepository.Update(model);
-                await _brandRepository.SaveAsync();
-                return true;
-            }
-            throw new BrandNotFoundException("Brand Not Found");
+            var brand = await _brandRepository.GetSingleAysnc(x => x.Id == id);
+            if (brand is null) throw new BrandNotFoundException("Brand Not Found");
+
+            bool result = _brandRepository.SoftDelete(brand);
+            await _brandRepository.SaveAsync();
+            return new ResponseDTO(
+                               httpStatusCode: result ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                               Message: result ? "Brand successfully deleted" : "Something went wrong"
+                               );
+
         }
 
 
