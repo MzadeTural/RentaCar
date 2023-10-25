@@ -49,6 +49,7 @@ namespace RentaCar.Business.Services.Implementations
             if (model is null) throw new BrandNotFoundException("Model Not Found");
             if (model.IsDeleted) throw new BrandNotFoundException("Model Not Found");
             string file = await _fileService.CreateFileAsync(hero.Image, _environment.WebRootPath + "/uploads/heros/");
+            model.ImageURL = file;
             var result = _heroRepository.Update(model);
             await _heroRepository.SaveAsync();
             return new ResponseDTO(
