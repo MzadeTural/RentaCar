@@ -17,7 +17,8 @@ namespace RentaCar.DataAccess.Repositories
         Task<bool> CreateAsync (T entity);
         bool Update(T entity);
         void Delete(T entity);
-        void SoftDelete (T entity);
+        bool SoftDelete (T entity);
+       
         Task<bool> IsExistAsync(Expression<Func<T, bool>> expression);
         Task<int> SaveAsync();
     }
