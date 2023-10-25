@@ -61,10 +61,20 @@ namespace RentaCar.Business.Services.Implementations
             throw new UserCreateFailedException(result.Errors);
         }
 
-        public Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime)
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime)
         {
-            throw new NotImplementedException();
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenEndDate.AddMinutes(refreshTokenLifeTime);
+
+                await _userManager.UpdateAsync(user);
+                return;
+            }
+
+            throw new UserNotFoundException("User cannot be null");
         }
+    
         private async Task<string?> GetEmailConfirmationLinkAsync(AppUser user)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
