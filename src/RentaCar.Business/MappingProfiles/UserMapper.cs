@@ -17,7 +17,7 @@ namespace RentaCar.Business.MappingProfiles
             CreateMap<CreateUserDto, AppUser>()
                 .ForMember(usc => usc.ImageUrl, e => e.Ignore())
                 .ReverseMap();
-            CreateMap<CreateBrandDto, Brand>();
+           
         }
     }
 }
