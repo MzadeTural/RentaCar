@@ -61,7 +61,7 @@ namespace RentaCar.Business.Services.Implementations
                 {
                     throw new BrandAlreadyExistException("Brand name is already exist");
                 }
-                model = _mapper.Map(brand, model);
+                model.Name = brand.Name;
             }
             if (brand.Icon != null)
             {
