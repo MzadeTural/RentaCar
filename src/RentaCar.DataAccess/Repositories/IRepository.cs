@@ -14,11 +14,11 @@ namespace RentaCar.DataAccess.Repositories
         IQueryable<T> GetAll();
         IQueryable<T> FindAll(Expression<Func<T,bool>> expression);
         Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression);
-        Task CreateAsync (T entity);
-        void Update(T entity);
+        Task<bool> CreateAsync (T entity);
+        bool Update(T entity);
         void Delete(T entity);
         void SoftDelete (T entity);
-        Task<bool> IsExistAsyncI(Expression<Func<T, bool>> expression);
+        Task<bool> IsExistAsync(Expression<Func<T, bool>> expression);
         Task<int> SaveAsync();
     }
 }

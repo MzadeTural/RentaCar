@@ -49,10 +49,7 @@ namespace RentaCar.Business.Services.Implementations
         public async Task<ResponseDTO> CreateAsync(CreateUserDto model)
         {
             string FileName = string.Empty;
-           
-
-          //  string path = Path.Combine(_environment.WebRootPath, "uploads", "users");
-           
+                     
                 FileName = await _fileService.CreateFileAsync(model.ImageUrl, _environment.WebRootPath + "/uploads/users/");
                 var user = _mapper.Map<AppUser>(model);
                  user.ImageUrl = FileName;
@@ -77,11 +74,7 @@ namespace RentaCar.Business.Services.Implementations
         public Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task ConfirmEmail(CreateUserDto model)
-      
-            { }
+        }     
             private async Task<string?> GetEmailConfirmationLinkAsync(AppUser user)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -102,8 +95,6 @@ namespace RentaCar.Business.Services.Implementations
         }
         private async Task<string> GetEmailConfirmationTemplate(string url)
         {
-          
-
             string path = Path.Combine(_environment.WebRootPath, "templates","EmailConfirmation.html");
             using StreamReader streamReader = new StreamReader(path);
             string result = await streamReader.ReadToEndAsync();
