@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using RentaCar.Business.DTOs.BrandDtos;
+using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using RentaCar.DataAccess.Repositories.Interfaces;
+using System.Net;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -26,52 +28,62 @@ namespace RentaCar.Business.Services.Implementations
         }
         public IQueryable<Brand> GetAll()
         => _brandRepository.GetAll();
-        public async Task<bool> CreateBrandAsync(CreateBrandDto brand)
+        public async Task<ResponseDTO> CreateBrandAsync(CreateBrandDto brand)
         {
+
+            bool isExistDb = await _brandRepository.IsExistAsync(x => x.Name.ToLower().Trim() == brand.Name.ToLower().Trim());
+            if (isExistDb)
+            {
+                throw new BrandAlreadyExistException("Brand name is already exist");
+            }
+
             string file = await _fileService.CreateFileAsync(brand.Icon, _environment.WebRootPath + "/uploads/brands/");
-            var new_brand = _mapper.Map<Brand>(brand);
-            new_brand.IconUrl = file;
-            await _brandRepository.CreateAsync(new_brand);
+            var newBrand = _mapper.Map<Brand>(brand);
+            newBrand.IconUrl = file;
+            var result = await _brandRepository.CreateAsync(newBrand);
+
             await _brandRepository.SaveAsync();
-            return true;
+
+            return new ResponseDTO(
+                         httpStatusCode: result ? HttpStatusCode.Created : HttpStatusCode.BadRequest,
+                         Message: result ? "Brand successfully created" : "Something went wrong"
+                         );
         }
 
-        public async Task<bool> UpdateBrandAsync(Guid id, UpdateBrandDto brand)
+        public async Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateBrandDto brand)
         {
+            ArgumentNullException.ThrowIfNull(id);
             var model = await _brandRepository.GetSingleAysnc(x => x.Id == id);
-            if (model is null) throw new BrandNotFoundException();
-
-            if (model.IsDeleted) throw new BrandNotFoundException();
+            if (model is null) throw new BrandNotFoundException("Brand Not Found");
+            if (model.IsDeleted) throw new BrandNotFoundException("Brand Not Found");
 
             if (brand.Name != null)
             {
-                bool isExist = model.Name.ToLower().Trim() == brand.Name.ToLower().Trim();
-                if (isExist)
-                {
-                    throw new BrandNotFoundException("Name isExist");
-                }
-
-                bool isExistDb = await _brandRepository.IsExistAsyncI(x => x.Name == brand.Name);
+                bool isExistDb = await _brandRepository.IsExistAsync(x => x.Name.ToLower().Trim() == brand.Name.ToLower().Trim());
                 if (isExistDb)
                 {
-                    throw new BrandNotFoundException("Name isExist Database");
+                    throw new BrandAlreadyExistException("Brand name is already exist");
                 }
-                model.Name = brand.Name;
+                model = _mapper.Map(brand, model);
             }
             if (brand.Icon != null)
             {
                 string file = await _fileService.CreateFileAsync(brand.Icon, _environment.WebRootPath + "/uploads/brands/");
                 model.IconUrl = file;
             }
-            _brandRepository.Update(model);
+            bool result = _brandRepository.Update(model);
             await _brandRepository.SaveAsync();
-            return true;
+            return new ResponseDTO(
+                                httpStatusCode: result ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                                Message: result ? "Brand successfully modified" : "Something went wrong"
+                                );
+
         }
 
         public async Task<bool> DeleteBrandAsync(Guid id)
         {
             var model = await _brandRepository.GetSingleAysnc(x => x.Id == id);
-            if (model is null) throw new BrandNotFoundException();
+            if (model is null) throw new BrandNotFoundException("Brand Not Found");
             if (!model.IsDeleted)
             {
                 model.IsDeleted = true;
@@ -79,7 +91,7 @@ namespace RentaCar.Business.Services.Implementations
                 await _brandRepository.SaveAsync();
                 return true;
             }
-            throw new BrandNotFoundException();
+            throw new BrandNotFoundException("Brand Not Found");
         }
 
 

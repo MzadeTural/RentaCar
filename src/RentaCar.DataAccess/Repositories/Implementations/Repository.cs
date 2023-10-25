@@ -16,7 +16,12 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         }
         public DbSet<T> Table => _context.Set<T>();
 
-        public async Task CreateAsync(T entity) => await Table.AddAsync(entity);
+        public async Task<bool> CreateAsync(T entity)
+        {
+            var data = await Table.AddAsync(entity);
+
+            return data.State == EntityState.Added;
+        }
 
         public void Delete(T entity)
         {
@@ -34,7 +39,7 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public async Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
             => await Table.Where(expression).FirstOrDefaultAsync();
 
-        public async Task<bool> IsExistAsyncI(Expression<Func<T, bool>> expression)
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression)
           => await GetQuery().AnyAsync(expression);
 
         public async Task<int> SaveAsync()
@@ -43,8 +48,13 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         public void SoftDelete(T entity)
             => entity.IsDeleted = true;
 
-        public void Update(T entity)
-          => Table.Update(entity);
+        public bool Update(T entity)
+        {
+            var data = Table.Update(entity);
+
+            return data.State == EntityState.Modified;
+        }
+       
 
 
         private IQueryable<T> GetQuery(params string[] includes)

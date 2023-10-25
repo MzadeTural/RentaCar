@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Win32;
+using MimeKit;
+using Org.BouncyCastle.Asn1.Ocsp;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.DTOs.MailDtos;
 using RentaCar.Business.DTOs.UserDtos;
@@ -15,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection.Metadata;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,17 +48,8 @@ namespace RentaCar.Business.Services.Implementations
         }
         public async Task<ResponseDTO> CreateAsync(CreateUserDto model)
         {
-            //AppUser user = new()
-            //{
-            //    Fullname = model.Fullname,
-            //    UserName = model.Username,
-            //    Email = model.Email
-            //};
             string FileName = string.Empty;
-           
-
-          //  string path = Path.Combine(_environment.WebRootPath, "uploads", "users");
-           
+                     
                 FileName = await _fileService.CreateFileAsync(model.ImageUrl, _environment.WebRootPath + "/uploads/users/");
                 var user = _mapper.Map<AppUser>(model);
                  user.ImageUrl = FileName;
@@ -65,7 +60,7 @@ namespace RentaCar.Business.Services.Implementations
                 await _userManager.AddToRoleAsync(user, Roles.Member.ToString());
 
                 string? url = await GetEmailConfirmationLinkAsync(user);
-                string body = GetEmailConfirmationTemplate(url);
+                string body =await GetEmailConfirmationTemplate(url);
 
                 await _mailService.SendEmailAsync(new MailRequestDto { ToEmail = user.Email, Subject = "RentaCar email confirmation for activate account", Body = body });
 
@@ -79,15 +74,12 @@ namespace RentaCar.Business.Services.Implementations
         public Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime)
         {
             throw new NotImplementedException();
-        }
-
-
-        private async Task<string?> GetEmailConfirmationLinkAsync(AppUser user)
+        }     
+            private async Task<string?> GetEmailConfirmationLinkAsync(AppUser user)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var httpContext = _httpContextAccessor.HttpContext;
             var request = httpContext.Request;
-
             string? url = _linkGenerator.GetUriByAction(
                 httpContext,
                 action: "ConfirmEmail",
@@ -97,19 +89,17 @@ namespace RentaCar.Business.Services.Implementations
                 host: request.Host
             );
 
+
+
             return url;
         }
-        private string GetEmailConfirmationTemplate(string url)
+        private async Task<string> GetEmailConfirmationTemplate(string url)
         {
-            var filePath = $"{_environment.WebRootPath}/templates/EmailConfirmation.html";
-
-            StreamReader streamReader = new StreamReader(filePath);
-            string mailText = streamReader.ReadToEnd();
-            streamReader.Close();
-
-            mailText = mailText.Replace("[ConfirmationLink]", url);
-
-            return mailText;
+            string path = Path.Combine(_environment.WebRootPath, "templates","EmailConfirmation.html");
+            using StreamReader streamReader = new StreamReader(path);
+            string result = await streamReader.ReadToEndAsync();
+            var body= result.Replace("[Link]", url);
+            return body;
         }
     }
 }

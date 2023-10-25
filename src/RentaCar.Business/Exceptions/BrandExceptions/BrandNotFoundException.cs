@@ -8,10 +8,6 @@ namespace RentaCar.Business.Exceptions.BrandExceptions
         public HttpStatusCode HttpStatusCode => HttpStatusCode.NotFound;
 
         public string errorMessage { get; }
-        public BrandNotFoundException()
-        {
-            errorMessage = "Brand Not Found";
-        }
 
         public BrandNotFoundException(string message) : base(message)
         {
