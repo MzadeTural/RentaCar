@@ -3,13 +3,13 @@ using System.Net;
 
 namespace RentaCar.Business.Exceptions.ModelExceptions
 {
-	public class ModelNotFoundException : Exception, IBaseException
+	public class ModelAlreadyExistException : Exception, IBaseException
     {
         public HttpStatusCode HttpStatusCode => HttpStatusCode.SeeOther;
 
         public string errorMessage { get; }
 
-        public ModelNotFoundException(string message) : base(message)
+        public ModelAlreadyExistException(string message) : base(message)
         {
             errorMessage = message;
         }
