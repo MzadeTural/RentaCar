@@ -44,16 +44,49 @@ namespace RentaCar.Business.Services.Implementations
                          Message: result ? "Model successfully created" : "Something went wrong"
                          );
         }
-
-        public Task<bool> DeleteBrandAsync(Guid id)
+        public async Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateModelDto model)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(id);
+            var dbmodel = await _modelRepository.GetSingleAysnc(x => x.Id == id);
+            if (dbmodel is null) throw new ModelNotFoundException("Model Not Found");
+            if (dbmodel.IsDeleted) throw new ModelNotFoundException("Model Not Found");
+
+            if (model.Name != null)
+            {
+                bool isExistDb = await _modelRepository.IsExistAsync(x => x.Name.ToLower().Trim() == model.Name.ToLower().Trim());
+                if (isExistDb)
+                {
+                    throw new BrandAlreadyExistException("Brand name is already exist");
+                }
+                dbmodel = _mapper.Map(model, dbmodel);
+            }
+            //if (model.BrandId != null)
+            //{
+            //    dbmodel.BrandId = model.BrandId;
+            //}
+            bool result = _modelRepository.Update(dbmodel);
+            await _modelRepository.SaveAsync();
+            return new ResponseDTO(
+                                httpStatusCode: result ? HttpStatusCode.OK : HttpStatusCode.BadRequest,
+                                Message: result ? "Model successfully modified" : "Something went wrong"
+                                );
         }
 
-        public Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateModelDto model)
+        public async Task<bool> DeleteBrandAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var model = await _modelRepository.GetSingleAysnc(x => x.Id == id);
+            if (model is null) throw new ModelNotFoundException("Model Not Found");
+            if (!model.IsDeleted)
+            {
+                model.IsDeleted = true;
+                _modelRepository.Update(model);
+                await _modelRepository.SaveAsync();
+                return true;
+            }
+            throw new ModelNotFoundException("Model Not Found");
         }
+
+        
     }
 }
 
