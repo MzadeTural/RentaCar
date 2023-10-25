@@ -8,16 +8,13 @@ namespace RentaCar.Business.Services
     {
         public static void AddBusinessServices(this IServiceCollection services)
         {
-
-
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<ITokenHandler, TokenHandler>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddTransient<IMailService, MailService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
-
-
+            services.AddScoped<IBrandService, BrandService>();
         }
     }
 }

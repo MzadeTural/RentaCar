@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RentaCar.Business.DTOs.BrandDtos;
 using RentaCar.Business.DTOs.UserDtos;
 using RentaCar.Core.Entities;
 using System;
@@ -16,6 +17,7 @@ namespace RentaCar.Business.MappingProfiles
             CreateMap<CreateUserDto, AppUser>()
                 .ForMember(usc => usc.ImageUrl, e => e.Ignore())
                 .ReverseMap();
+            CreateMap<CreateBrandDto, Brand>();
         }
     }
 }
