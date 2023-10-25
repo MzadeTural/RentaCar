@@ -5,7 +5,7 @@ namespace RentaCar.Business.Exceptions.ModelExceptions
 {
 	public class ModelNotFoundException : Exception, IBaseException
     {
-        public HttpStatusCode HttpStatusCode => HttpStatusCode.NotFound;
+        public HttpStatusCode HttpStatusCode => HttpStatusCode.SeeOther;
 
         public string errorMessage { get; }
 
