@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RentaCar.Business.DTOs.UserDtos;
 using RentaCar.Business.Enums;
+using RentaCar.Business.Services.Implementations;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
+using System.Net;
 
 namespace RentaCar.Api.Controllers.v1
 {
@@ -15,11 +17,13 @@ namespace RentaCar.Api.Controllers.v1
     {
         private readonly IUserService _userService;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAuthService _authService;
 
-        public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager)
+        public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager, IAuthService authService)
         {
             _userService = userService;
             _roleManager = roleManager;
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -32,12 +36,10 @@ namespace RentaCar.Api.Controllers.v1
         }
 
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailDto confirmEmail)
+        public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailDto confirmEmailDto)
         {
-            // var response =  var response = await _userService.CreateAsync(createUserDto);
-
-            //return StatusCode((int)response.httpStatusCode, response.Message);
-            return Ok();
+            var response = await _authService.ConfirmEmailAsync(confirmEmailDto);
+            return StatusCode((int)response.httpStatusCode, response.Message);
         }
 
         [HttpPost("createrole")]
