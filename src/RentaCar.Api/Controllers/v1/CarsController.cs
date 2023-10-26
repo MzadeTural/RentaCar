@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RentaCar.Business.DTOs.BrandDtos;
+using RentaCar.Business.DTOs.CarDtos;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Enums;
+using RentaCar.Business.Services.Interfaces;
+using RentaCar.DataAccess.Repositories.Interfaces;
 using System.Net;
 
 namespace RentaCar.Api.Controllers.v1
@@ -11,9 +15,10 @@ namespace RentaCar.Api.Controllers.v1
     [ApiController]
     public class CarController : ControllerBase
     {
-        public CarController()
+        private readonly ICarService _carService;
+        public CarController(ICarService carService)
         {
-            
+            _carService = carService;
         }
 
         // GET: api/<CarController>
@@ -32,11 +37,12 @@ namespace RentaCar.Api.Controllers.v1
 
         // POST api/<CarController>
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
-        public async Task<IActionResult> Create([FromBody] string value)
+      //  [Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
+        public async Task<IActionResult> Create([FromForm] CreateCarDto createCarDto)
         {
 
-            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(HttpStatusCode.OK, "Car created successefully"));
+            var response = await _carService.CreateCarAsync(createCarDto);
+            return StatusCode((int)HttpStatusCode.OK, new ResponseDTO(response.httpStatusCode, response.Message));
 
         }
 

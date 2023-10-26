@@ -7,9 +7,10 @@ namespace RentaCar.Business.Services.Interfaces
     public interface ICarService
     {
 
-        Task<ResponseDTO> CreateCarAsync(CreateCarDto blog);
-        Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto blog);
+        Task<ResponseDTO> CreateCarAsync(CreateCarDto car);
+        Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto car);
         Task<ResponseDTO> DeleteCarAsync(string id);
+
         public Task<List<Car>> LoadMore(int page);
     }
 }
