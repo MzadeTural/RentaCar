@@ -25,7 +25,7 @@ namespace RentaCar.Business.Services.Implementations
            
         }
 
-        public async Task<TokenResponseDto> CreateAccessTokenAsync(int second, AppUser user)
+        public async Task<TokenResponseDto> CreateAccessTokenAsync(int minute, AppUser user)
         {
             TokenResponseDto tokenResponseDto = new();
 
@@ -45,7 +45,7 @@ namespace RentaCar.Business.Services.Implementations
 
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            tokenResponseDto.Expiration = DateTime.Now.AddDays(second);
+            tokenResponseDto.Expiration = DateTime.Now.AddMinutes(minute);
             JwtSecurityToken jwtSecurityToken = new(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
