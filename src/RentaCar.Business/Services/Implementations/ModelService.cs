@@ -54,7 +54,7 @@ namespace RentaCar.Business.Services.Implementations
                 bool isExistDb = await _modelRepository.IsExistAsync(x => x.Name.ToLower().Trim() == model.Name.ToLower().Trim());
                 if (isExistDb)
                 {
-                    throw new BrandAlreadyExistException("Model name is already exist");
+                    throw new ModelAlreadyExistException("Model name is already exist");
                 }
                 dbModel.Name = model.Name;
             }
