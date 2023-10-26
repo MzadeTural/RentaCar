@@ -24,7 +24,7 @@ namespace RentaCar.Api.Controllers.v1
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, new ResponseDTO(HttpStatusCode.BadRequest, "Already authenticated"));
             }
-            var response = await _authService.LoginAsync(loginUserDto, 2);
+            var response = await _authService.LoginAsync(loginUserDto, 15);
 
             return Ok(response);
         }

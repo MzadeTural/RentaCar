@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace RentaCar.Business.DTOs.CarDtos
 {
-    public record CreateCarDto
-    {
-    }
+    public record CreateCarDto(Guid ModelId,
+                                  string OwnerId,
+                                  IFormFile MainPhotoUrl,
+                                  List<IFormFile> Photos,
+                                  string Description,
+                                  Guid GearBoxId,
+                                  string YearOfManufacture,
+                                  Guid FuelTypeId,
+                                  int SeatCount);
+
 }
