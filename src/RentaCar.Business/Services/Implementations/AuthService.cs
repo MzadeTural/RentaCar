@@ -2,11 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using RentaCar.Business.DTOs;
 using RentaCar.Business.DTOs.AuthDtos;
+using RentaCar.Business.DTOs.UserDtos;
 using RentaCar.Business.Exceptions.AuthExceptions;
 using RentaCar.Business.Exceptions.AuthExceptions.Token;
 using RentaCar.Business.Exceptions.UserExceptions;
+using RentaCar.Business.Helpers.Extensions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
+using System.Net;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -25,6 +28,25 @@ namespace RentaCar.Business.Services.Implementations
             _mailService = mailService;
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        public async Task<ConfirmEmailResponseDto> ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto)
+        {
+            confirmEmailDto.Token.ThrowIfNullOrWhiteSpace(message: "Token cannot be null");            
+            confirmEmailDto.Email.ThrowIfNullOrWhiteSpace(message: "Email cannot be null");
+
+            var user = await _userManager.FindByEmailAsync(confirmEmailDto.Email);
+            if (user is null)
+                throw new UserNotFoundException($"User not found by email: {confirmEmailDto.Email}", HttpStatusCode.BadRequest);
+
+            if (await _userManager.IsEmailConfirmedAsync(user))
+                throw new EmailConfirmationException("This account already activated");
+
+            var result = await _userManager.ConfirmEmailAsync(user, confirmEmailDto.Token);
+            if (!result.Succeeded)
+                throw new EmailConfirmationException(result.Errors);
+
+            return new(true, $"User successfully activated. Username: {user.UserName}");
         }
 
         public async Task<LoginResponseDto> LoginAsync(LoginDto model, int accessTokenLifeTime)
