@@ -8,6 +8,8 @@ namespace RentaCar.Core.Entities
         public Guid ModelId { get; set; }
         public Model Model { get; set; }
         public string OwnerId { get; set; }
+        public decimal Price { get; set; }
+        public double EngineVolume { get; set; }
         public AppUser Owner { get; set; }
         public string MainPhotoUrl { get; set; }
         public List<CarPhoto> Photos { get; set; }

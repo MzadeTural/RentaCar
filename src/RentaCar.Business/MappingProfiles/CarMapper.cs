@@ -17,6 +17,7 @@ namespace RentaCar.Business.MappingProfiles
             .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model.Name))
             .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.Owner.UserName))
             .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Model.Brand.Name))
+            .ForMember(dest => dest.BrandLogo, opt => opt.MapFrom(src => src.Model.Brand.IconUrl))
             .ForMember(dest => dest.GearBox, opt => opt.MapFrom(src => src.GearBox.Name))
             .ForMember(dest => dest.FuelType, opt => opt.MapFrom(src => src.FuelType.Name))
             .ReverseMap();

@@ -10,6 +10,7 @@ namespace RentaCar.Business.DTOs.CarDtos
     public class GetUserCarsDto
     {
         public string ModelName { get; set; }
+        public string BrandLogo { get; set; }
         public string Owner { get; set; }  
         public string BrandName { get; set; }
         public string MainPhotoUrl { get; set; }

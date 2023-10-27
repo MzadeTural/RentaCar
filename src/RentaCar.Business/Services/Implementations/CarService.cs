@@ -76,18 +76,17 @@ namespace RentaCar.Business.Services.Implementations
             ArgumentNullException.ThrowIfNull(userId);
 
             var user = _httpContextAccessor?.HttpContext?.User?.Identity;
+            var loginUser = await _userManager.FindByIdAsync(userId);
             if (user?.IsAuthenticated == false)
                 throw new AuthorizationException("Please log in to view any car.", HttpStatusCode.Unauthorized);
             
             var dbUser = await _userManager.FindByNameAsync(user.Name);
             if (dbUser is null)
                 throw new UserNotFoundException(nameof(user.Name), user.Name);
-            var loginUser = await _userManager.FindByIdAsync(userId);
-            if (loginUser.UserName != user.Name)
-            {
-                throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
-            }
 
+            if (loginUser.UserName != user.Name)        
+                throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
+            
             var cars = await _carRepository.FindAll(c => c.OwnerId == userId.Trim() 
                                                          && !c.IsDeleted, 1, 5, tracking: false,
                                                          c => c.Model,           
@@ -108,7 +107,12 @@ namespace RentaCar.Business.Services.Implementations
 
         public Task<List<Car>> LoadMore(int page)
         {
-            throw new NotImplementedException();
+            _carRepository.FindAll(i => !i.IsDeleted,page,16,tracking:false)
+                               .OrderByDescending(e => e.Id)
+                               .ToListAsync();
+         
+            throw new ArgumentOutOfRangeException("Price",
+                        "The value must be greater than 0.0");
         }
 
         public Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto car)
