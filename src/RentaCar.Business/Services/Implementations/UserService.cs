@@ -61,6 +61,11 @@ namespace RentaCar.Business.Services.Implementations
             throw new UserCreateFailedException(result.Errors);
         }
 
+        public Task<List<Car>> GetUserCar(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime)
         {
             if (user != null)

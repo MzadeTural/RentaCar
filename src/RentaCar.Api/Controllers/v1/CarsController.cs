@@ -52,10 +52,7 @@ namespace RentaCar.Api.Controllers.v1
         {
         }
 
-        // DELETE api/<CarController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
+       
     }
 }

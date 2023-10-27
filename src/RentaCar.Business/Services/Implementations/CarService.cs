@@ -46,8 +46,6 @@ namespace RentaCar.Business.Services.Implementations
         private async Task<List<CarPhoto>> GetImagesUrlAsync(CreateCarDto CreateDto)
         {
             List<CarPhoto> carImagesList = new List<CarPhoto>();
-
-
             for (int i = 0; i < CreateDto.Photos.Count(); i++)
             {
                 string fileName = await _fileService.CreateFileAsync(CreateDto.Photos[i], _environment.WebRootPath + "/uploads/cars/");
