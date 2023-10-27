@@ -8,6 +8,13 @@ using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using AutoMapper;
+using RentaCar.Business.Exceptions.AuthExceptions;
+using Microsoft.AspNetCore.Http;
+using RentaCar.Business.Exceptions.UserExceptions;
+using Microsoft.AspNetCore.Identity;
+using RentaCar.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -17,13 +24,19 @@ namespace RentaCar.Business.Services.Implementations
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _environment;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RentaCarContext _context;
 
-        public CarService(ICarRepository carRepository, IFileService fileService, IWebHostEnvironment environment, IMapper mapper)
+        public CarService(ICarRepository carRepository, IFileService fileService, IWebHostEnvironment environment, IMapper mapper, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager, RentaCarContext context)
         {
             _carRepository = carRepository;
             _fileService = fileService;
             _environment = environment;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
+            _context = context;
         }
 
         public async Task<ResponseDTO> CreateCarAsync(CreateCarDto car)
@@ -58,7 +71,35 @@ namespace RentaCar.Business.Services.Implementations
             }
             return carImagesList;
         }
+        public async Task<List<GetUserCarsDto>> GetUserCar(string userId)
+        {
+            ArgumentNullException.ThrowIfNull(userId);
 
+            var user = _httpContextAccessor?.HttpContext?.User?.Identity;
+            if (user?.IsAuthenticated == false)
+                throw new AuthorizationException("Please log in to view any car.", HttpStatusCode.Unauthorized);
+            
+            var dbUser = await _userManager.FindByNameAsync(user.Name);
+            if (dbUser is null)
+                throw new UserNotFoundException(nameof(user.Name), user.Name);
+            var loginUser = await _userManager.FindByIdAsync(userId);
+            if (loginUser.UserName != user.Name)
+            {
+                throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
+            }
+
+            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.Trim() 
+                                                         && !c.IsDeleted, 1, 5, tracking: false,
+                                                         c => c.Model,           
+                                                         c => c.Owner,          
+                                                         c => c.Model.Brand,    
+                                                         c => c.GearBox,         
+                                                         c => c.FuelType)
+                                                        .ProjectTo<GetUserCarsDto>(_mapper.ConfigurationProvider)
+                                                        .ToListAsync();
+        
+            return cars;
+        }
 
         public Task<ResponseDTO> DeleteCarAsync(string id)
         {

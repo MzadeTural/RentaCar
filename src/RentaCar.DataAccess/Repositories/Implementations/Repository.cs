@@ -29,7 +29,7 @@ namespace RentaCar.DataAccess.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> expression , int pageIndex, int pageSize, bool tracking = true, params string[] includes)
+        public IQueryable<T> FindAll(Expression<Func<T, bool>> expression , int pageIndex, int pageSize, bool tracking = true, params Expression<Func<T, object>>[] includes)
         {
             var query = GetQuery(includes).Where(expression);
             query= !tracking ? query.AsNoTracking() : query;
@@ -38,13 +38,13 @@ namespace RentaCar.DataAccess.Repositories.Implementations
           
          
 
-        public IQueryable<T> GetAll(bool tracking = true, params string[] includes)     
+        public IQueryable<T> GetAll(bool tracking = true, params Expression<Func<T, object>>[] includes)     
             => !tracking ? GetQuery(includes).AsNoTracking() : GetQuery(includes);
         
         public async Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
             => await Table.Where(expression).FirstOrDefaultAsync();
 
-        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression, params string[] includes)
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
           => await GetQuery(includes).AnyAsync(expression);
 
         public async Task<int> SaveAsync()
@@ -66,7 +66,7 @@ namespace RentaCar.DataAccess.Repositories.Implementations
        
 
 
-        private IQueryable<T> GetQuery(params string[] includes)
+        private IQueryable<T> GetQuery(params Expression<Func<T, object>>[] includes)
         {
             var query = Table.AsQueryable();
             if (includes is not null && includes.Length > 0)

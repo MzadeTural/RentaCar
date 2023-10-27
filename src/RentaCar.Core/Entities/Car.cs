@@ -6,6 +6,7 @@ namespace RentaCar.Core.Entities
     public class Car:BaseSectionEntity
     {
         public Guid ModelId { get; set; }
+        public Model Model { get; set; }
         public string OwnerId { get; set; }
         public AppUser Owner { get; set; }
         public string MainPhotoUrl { get; set; }
