@@ -11,6 +11,6 @@ namespace RentaCar.Business.Services.Interfaces
         Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto car);
         Task<ResponseDTO> DeleteCarAsync(string id);
         Task<List<GetUserCarsDto>> GetUserCar(string userId);
-        public Task<List<Car>> LoadMore(int page);
+        public Task<List<LoadMoreCarDto>> LoadMore(int page);
     }
 }

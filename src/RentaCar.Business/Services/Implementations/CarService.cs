@@ -1,20 +1,18 @@
-﻿using RentaCar.Business.DTOs.CarDtos;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using RentaCar.Business.DTOs.CarDtos;
 using RentaCar.Business.DTOs.Common;
+using RentaCar.Business.Exceptions.AuthExceptions;
+using RentaCar.Business.Exceptions.UserExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
-using RentaCar.DataAccess.Repositories.Implementations;
-using RentaCar.DataAccess.Repositories.Interfaces;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
-using System.Net;
-using Microsoft.AspNetCore.Hosting;
-using AutoMapper;
-using RentaCar.Business.Exceptions.AuthExceptions;
-using Microsoft.AspNetCore.Http;
-using RentaCar.Business.Exceptions.UserExceptions;
-using Microsoft.AspNetCore.Identity;
 using RentaCar.DataAccess.Contexts;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper.QueryableExtensions;
+using RentaCar.DataAccess.Repositories.Interfaces;
+using System.Net;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -42,6 +40,10 @@ namespace RentaCar.Business.Services.Implementations
         public async Task<ResponseDTO> CreateCarAsync(CreateCarDto car)
         {
             string file = await _fileService.CreateFileAsync(car.MainPhotoUrl, _environment.WebRootPath + "/uploads/cars/");
+
+            if (car.Price <= 0)
+                throw new ArgumentOutOfRangeException("Price",
+                        "The value must be greater than 0.0");
             var newCar = _mapper.Map<Car>(car);
             newCar.MainPhotoUrl = file;
             newCar.Photos = await GetImagesUrlAsync(car);
@@ -79,25 +81,39 @@ namespace RentaCar.Business.Services.Implementations
             var loginUser = await _userManager.FindByIdAsync(userId);
             if (user?.IsAuthenticated == false)
                 throw new AuthorizationException("Please log in to view any car.", HttpStatusCode.Unauthorized);
-            
+
             var dbUser = await _userManager.FindByNameAsync(user.Name);
             if (dbUser is null)
                 throw new UserNotFoundException(nameof(user.Name), user.Name);
 
-            if (loginUser.UserName != user.Name)        
+            if (loginUser.UserName != user.Name)
                 throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
-            
-            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.Trim() 
+
+            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.Trim()
                                                          && !c.IsDeleted, 1, 5, tracking: false,
-                                                         c => c.Model,           
-                                                         c => c.Owner,          
-                                                         c => c.Model.Brand,    
-                                                         c => c.GearBox,         
+                                                         c => c.Model,
+                                                         c => c.Owner,
+                                                         c => c.Model.Brand,
+                                                         c => c.GearBox,
                                                          c => c.FuelType)
                                                         .ProjectTo<GetUserCarsDto>(_mapper.ConfigurationProvider)
                                                         .ToListAsync();
-        
+
             return cars;
+        }
+        public async Task<List<LoadMoreCarDto>> LoadMore(int page)
+        {
+            var cars = await _carRepository.FindAll(i => !i.IsDeleted,
+                                      page, 16, tracking: false,
+                                       c => c.Model,
+                                       c => c.Model.Brand,
+                                       c => c.FuelType)
+                                      .OrderByDescending(e => e.CreatedAt)
+                                    .ProjectTo<LoadMoreCarDto>(_mapper.ConfigurationProvider)
+                                   .ToListAsync();
+
+            return cars;
+
         }
 
         public Task<ResponseDTO> DeleteCarAsync(string id)
@@ -105,15 +121,6 @@ namespace RentaCar.Business.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<List<Car>> LoadMore(int page)
-        {
-            _carRepository.FindAll(i => !i.IsDeleted,page,16,tracking:false)
-                               .OrderByDescending(e => e.Id)
-                               .ToListAsync();
-         
-            throw new ArgumentOutOfRangeException("Price",
-                        "The value must be greater than 0.0");
-        }
 
         public Task<ResponseDTO> UpdateCarAsync(string id, UpdateCarDto car)
         {
