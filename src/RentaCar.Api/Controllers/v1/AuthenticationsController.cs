@@ -19,13 +19,8 @@ namespace RentaCar.Api.Controllers.v1
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromForm] LoginDto loginUserDto)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return StatusCode((int)HttpStatusCode.BadRequest, new ResponseDTO(HttpStatusCode.BadRequest, "Already authenticated"));
-            }
+        {         
             var response = await _authService.LoginAsync(loginUserDto, 15);
-
             return Ok(response);
         }
     }

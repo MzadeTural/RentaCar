@@ -2,6 +2,7 @@
 using RentaCar.Core.Entities.Common;
 using RentaCar.DataAccess.Contexts;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RentaCar.DataAccess.Repositories.Implementations
 {
@@ -28,19 +29,23 @@ namespace RentaCar.DataAccess.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public IQueryable<T> FindAll(Expression<Func<T, bool>> expression)
+        public IQueryable<T> FindAll(Expression<Func<T, bool>> expression , int pageIndex, int pageSize, bool tracking = true, params string[] includes)
         {
-            throw new NotImplementedException();
+            var query = GetQuery(includes).Where(expression);
+            query= !tracking ? query.AsNoTracking() : query;
+            return query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
         }
+          
+         
 
-        public IQueryable<T> GetAll()
-         => Table.AsQueryable();
-
+        public IQueryable<T> GetAll(bool tracking = true, params string[] includes)     
+            => !tracking ? GetQuery(includes).AsNoTracking() : GetQuery(includes);
+        
         public async Task<T> GetSingleAysnc(Expression<Func<T, bool>> expression)
             => await Table.Where(expression).FirstOrDefaultAsync();
 
-        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression)
-          => await GetQuery().AnyAsync(expression);
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression, params string[] includes)
+          => await GetQuery(includes).AnyAsync(expression);
 
         public async Task<int> SaveAsync()
             => await _context.SaveChangesAsync();
@@ -64,14 +69,16 @@ namespace RentaCar.DataAccess.Repositories.Implementations
         private IQueryable<T> GetQuery(params string[] includes)
         {
             var query = Table.AsQueryable();
-            if (includes != null)
+            if (includes is not null && includes.Length > 0)
             {
                 foreach (var item in includes)
                 {
-                    query.Include(item);
+                    query = query.Include(item);
                 }
             }
             return query;
         }
+
+       
     }
 }
