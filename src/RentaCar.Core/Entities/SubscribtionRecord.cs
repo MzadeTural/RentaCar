@@ -6,7 +6,7 @@ namespace RentaCar.Core.Entities
     public class SubscribtionRecord:BaseEntity
     {
         
-        public string AppUserId { get; set; }
+        public Guid AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public Guid SubscribtionId { get; set; }
         public Subscribtion Subscribtion { get; set; }

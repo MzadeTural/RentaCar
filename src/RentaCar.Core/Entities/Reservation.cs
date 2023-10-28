@@ -5,8 +5,9 @@ namespace RentaCar.Core.Entities
 {
     public class Reservation:BaseSectionEntity
     {
-        public string OwnerId { get; set; }
-        public string UserId { get; set; }
+        public Guid OwnerId { get; set; }
+        public Guid UserId { get; set; }
+        public AppUser Owner{ get; set; }
         public AppUser User{ get; set; }
         public Guid CarId { get; set; }
         public Car Car { get; set; }

@@ -73,7 +73,7 @@ namespace RentaCar.Business.Services.Implementations
             }
             return carImagesList;
         }
-        public async Task<List<GetUserCarsDto>> GetUserCar(string userId)
+        public async Task<List<GetUserCarsDto>> GetUserCar(Guid userId)
         {
             ArgumentNullException.ThrowIfNull(userId);
 
@@ -89,7 +89,7 @@ namespace RentaCar.Business.Services.Implementations
             if (loginUser.UserName != user.Name)
                 throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
 
-            var cars = await _carRepository.FindAllPaginate(c => c.OwnerId == userId.Trim()
+            var cars = await _carRepository.FindAllPaginate(c => c.OwnerId == userId
                                                          && !c.IsDeleted, 1, 5, tracking: false,
                                                          c => c.Model,
                                                          c => c.Owner,
