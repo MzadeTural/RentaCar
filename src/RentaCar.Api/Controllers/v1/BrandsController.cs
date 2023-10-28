@@ -24,7 +24,7 @@ namespace RentaCar.Api.Controllers.v1
              
         }
 
-            [HttpGet]
+        [HttpGet]
         [Route("all")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public IActionResult GetAll()

@@ -17,7 +17,7 @@ namespace RentaCar.DataAccess.Repositories
             services.AddDbContext<RentaCarContext>(opt =>
             {
                 opt.UseSqlServer(ServiceConfiguration.ConnectionString());
-            }).AddIdentity<AppUser,IdentityRole>(x =>
+            }).AddIdentity<AppUser,IdentityRole<Guid>>(x =>
             {
                 x.Password.RequiredLength = 5;
                 //  x.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
