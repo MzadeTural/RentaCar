@@ -9,7 +9,7 @@ namespace RentaCar.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CurrentLoaction> builder)
         {
-            builder.Property(c => c.UserId).IsRequired();
+            builder.Property(c => c.AppUserId).IsRequired();
             builder.Property(c=>c.CarId).IsRequired();  
             builder.Property(c=>c.Location).IsRequired().HasMaxLength(100);
         }

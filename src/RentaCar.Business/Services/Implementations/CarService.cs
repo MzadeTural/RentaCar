@@ -78,7 +78,7 @@ namespace RentaCar.Business.Services.Implementations
             ArgumentNullException.ThrowIfNull(userId);
 
             var user = _httpContextAccessor?.HttpContext?.User?.Identity;
-            var loginUser = await _userManager.FindByIdAsync(userId);
+            var loginUser = await _userManager.FindByIdAsync(userId.ToString());
             if (user?.IsAuthenticated == false)
                 throw new AuthorizationException("Please log in to view any car.", HttpStatusCode.Unauthorized);
 
@@ -89,7 +89,7 @@ namespace RentaCar.Business.Services.Implementations
             if (loginUser.UserName != user.Name)
                 throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
 
-            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.Trim()
+            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.ToString().Trim()
                                                          && !c.IsDeleted, 1, 5, tracking: false,
                                                          c => c.Model,
                                                          c => c.Owner,
