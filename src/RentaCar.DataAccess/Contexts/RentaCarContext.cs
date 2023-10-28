@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RentaCar.Core.Entities;
 using RentaCar.Core.Entities.Common;
@@ -6,23 +7,23 @@ using RentaCar.DataAccess.Configurations;
 
 namespace RentaCar.DataAccess.Contexts
 {
-    public class RentaCarContext: IdentityDbContext<AppUser>
+    public class RentaCarContext: IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
         public RentaCarContext(DbContextOptions<RentaCarContext> options) : base(options) { }
 
-        //public DbSet<Brand> Brands { get; set; }
-        //public DbSet<Car> Cars { get; set; }
-        //public DbSet<CarPhoto> CarPhotos { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarPhoto> CarPhotos { get; set; }
         //public DbSet<CurrentLoaction> CurrentLoactions { get; set; }
-        //public DbSet<FuelType> FuelTypes { get; set; }
-        //public DbSet<GearBox> GearBoxes { get; set; }
-        //public DbSet<Hero> Heroes { get; set; }
-        //public DbSet<Location> Locations { get; set; }
-        //public DbSet<Model> Models { get; set; }
-        //public DbSet<Reservation> Reservations { get; set; }
-        //public DbSet<Subscribtion> Subscribtions { get; set; }
-        //public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
-        //public DbSet<UserCard> UserCards { get; set; }
+        public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<GearBox> GearBoxes { get; set; }
+        public DbSet<Hero> Heroes { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Subscribtion> Subscribtions { get; set; }
+        public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
+        public DbSet<UserCard> UserCards { get; set; }
 
 
 
@@ -40,7 +41,7 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
             modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
-            modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
+            //modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.Car)
@@ -49,6 +50,17 @@ namespace RentaCar.DataAccess.Contexts
 
             modelBuilder.Entity<SubscribtionRecord>()
                 .Ignore(e => e.AppUser);
+
+            modelBuilder.Entity<Reservation>()
+            .HasOne(r => r.Owner)
+            .WithMany()
+            .HasForeignKey(r => r.OwnerId);
+
+            modelBuilder.Entity<Reservation>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }
