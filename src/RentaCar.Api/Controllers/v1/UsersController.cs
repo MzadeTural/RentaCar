@@ -38,8 +38,9 @@ namespace RentaCar.Api.Controllers.v1
 
             return StatusCode((int)response.httpStatusCode, response.Message);
         }
-        [HttpGet("{id}")]
-        public async Task<List<GetUserCarsDto>> Get(string id)
+        
+        [HttpGet("{userId}/user-cars")]
+        public async Task<List<GetUserCarsDto>> GetUserCars(string id)
         {
            var cars=await _carService.GetUserCar(id);
             return cars;

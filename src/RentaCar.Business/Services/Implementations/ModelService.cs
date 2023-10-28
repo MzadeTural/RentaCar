@@ -1,27 +1,30 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using RentaCar.Business.DTOs.BrandDtos;
+using RentaCar.Business.DTOs.CarDtos;
 using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.DTOs.ModelDtos;
-using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Exceptions.ModelExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
+using RentaCar.DataAccess.Repositories.Implementations;
 using RentaCar.DataAccess.Repositories.Interfaces;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
+using System.Net;
 
 namespace RentaCar.Business.Services.Implementations
 {
     public class ModelService : IModelService
-	{
+    {
         private IModelRepository _modelRepository;
         private IMapper _mapper;
 
-        public ModelService(IModelRepository modelRepository,IMapper mapper)
+        public ModelService(IModelRepository modelRepository, IMapper mapper)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;
         }
-        
+
         public IQueryable<Model> GetAll()
             => _modelRepository.GetAll();
 
@@ -82,7 +85,7 @@ namespace RentaCar.Business.Services.Implementations
             );
         }
 
-        
+       
     }
 }
 
