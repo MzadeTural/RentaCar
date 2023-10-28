@@ -24,7 +24,6 @@ namespace RentaCar.Business.Services.Implementations
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<AppUser> _userManager;
-        private readonly RentaCarContext _context;
 
         public CarService(ICarRepository carRepository, IFileService fileService, IWebHostEnvironment environment, IMapper mapper, IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager, RentaCarContext context)
         {
@@ -34,7 +33,6 @@ namespace RentaCar.Business.Services.Implementations
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
-            _context = context;
         }
 
         public async Task<ResponseDTO> CreateCarAsync(CreateCarDto car)
