@@ -89,7 +89,7 @@ namespace RentaCar.Business.Services.Implementations
             if (loginUser.UserName != user.Name)
                 throw new AuthorizationException("You did not have permission to access other users' cars", HttpStatusCode.Unauthorized);
 
-            var cars = await _carRepository.FindAll(c => c.OwnerId == userId.ToString().Trim()
+            var cars = await _carRepository.FindAllPaginate(c => c.OwnerId == userId.Trim()
                                                          && !c.IsDeleted, 1, 5, tracking: false,
                                                          c => c.Model,
                                                          c => c.Owner,
@@ -103,7 +103,7 @@ namespace RentaCar.Business.Services.Implementations
         }
         public async Task<List<LoadMoreCarDto>> LoadMore(int page)
         {
-            var cars = await _carRepository.FindAll(i => !i.IsDeleted,
+            var cars = await _carRepository.FindAllPaginate(i => !i.IsDeleted,
                                       page, 16, tracking: false,
                                        c => c.Model,
                                        c => c.Model.Brand,
@@ -111,7 +111,6 @@ namespace RentaCar.Business.Services.Implementations
                                       .OrderByDescending(e => e.CreatedAt)
                                     .ProjectTo<LoadMoreCarDto>(_mapper.ConfigurationProvider)
                                    .ToListAsync();
-
             return cars;
 
         }

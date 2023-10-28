@@ -10,5 +10,6 @@ namespace RentaCar.Business.Services.Interfaces
         Task<ResponseDTO> CreateBrandAsync(CreateBrandDto brand);
         Task<ResponseDTO> UpdateBrandAsync(Guid id, UpdateBrandDto brand);
         Task<ResponseDTO> DeleteBrandAsync(Guid id);
+        Task<List<GetBrandModelsDto>> GetBrandModelsAsync(Guid BrandId);
     }
 }

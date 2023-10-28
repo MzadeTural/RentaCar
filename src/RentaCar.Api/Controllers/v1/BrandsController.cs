@@ -17,7 +17,14 @@ namespace RentaCar.Api.Controllers.v1
         {
             _brandService = brandService;
         }
-        [HttpGet]
+        [HttpGet("{brandId}/models")]
+        public async Task<List<GetBrandModelsDto>> GetModelsByBrand(Guid brandId)
+        {
+          return await  _brandService.GetBrandModelsAsync(brandId);
+             
+        }
+
+            [HttpGet]
         [Route("all")]
         //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public IActionResult GetAll()
