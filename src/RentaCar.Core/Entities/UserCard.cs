@@ -13,7 +13,7 @@ namespace RentaCar.Core.Entities
         public string CardNumber { get; set; }
         public string ExpireDate { get; set; }
         public string CVV { get; set; }
-        public string UserId { get; set; }
+        public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
     }
 }

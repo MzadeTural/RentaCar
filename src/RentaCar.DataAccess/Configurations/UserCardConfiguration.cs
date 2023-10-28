@@ -12,7 +12,7 @@ namespace RentaCar.DataAccess.Configurations
             builder.Property(x => x.CardNumber).IsRequired().HasMaxLength(16);
             builder.Property(x => x.ExpireDate).IsRequired();
             builder.Property(x => x.CVV).IsRequired().HasMaxLength(3);
-            builder.Property(x => x.UserId).IsRequired();
+            builder.Property(x => x.AppUserId).IsRequired();
         }
     }
 }
