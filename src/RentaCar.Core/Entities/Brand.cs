@@ -6,6 +6,6 @@ namespace RentaCar.Core.Entities
     {
         public string Name { get; set; }
         public string IconUrl { get; set; }
-        public List<Model> Models { get; set; }
+        public IEnumerable<Model> Models { get; set; }
     }
 }

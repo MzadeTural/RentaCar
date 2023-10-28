@@ -18,11 +18,11 @@ namespace RentaCar.Api.Controllers.v1
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IAuthService _authService;
         private readonly ICarService _carService;
 
-        public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager, IAuthService authService, ICarService carService)
+        public UsersController(IUserService userService, RoleManager<IdentityRole<Guid>> roleManager, IAuthService authService, ICarService carService)
         {
             _userService = userService;
             _roleManager = roleManager;
@@ -40,7 +40,7 @@ namespace RentaCar.Api.Controllers.v1
         }
         
         [HttpGet("{userId}/user-cars")]
-        public async Task<List<GetUserCarsDto>> GetUserCars(string id)
+        public async Task<List<GetUserCarsDto>> GetUserCars(Guid id)
         {
            var cars=await _carService.GetUserCar(id);
             return cars;
@@ -61,7 +61,7 @@ namespace RentaCar.Api.Controllers.v1
             {
                 if (!await _roleManager.RoleExistsAsync(role.ToString()))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+                    await _roleManager.CreateAsync(new IdentityRole<Guid> { Name = role.ToString() });
                 }
             }
         }

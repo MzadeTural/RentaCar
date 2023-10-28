@@ -7,12 +7,12 @@ namespace RentaCar.Core.Entities
     {
         public Guid ModelId { get; set; }
         public Model Model { get; set; }
-        public string OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
         public decimal Price { get; set; }
         public double EngineVolume { get; set; }
         public AppUser Owner { get; set; }
         public string MainPhotoUrl { get; set; }
-        public List<CarPhoto> Photos { get; set; }
+        public IEnumerable<CarPhoto> Photos { get; set; }
         public string Description { get; set; }
         public Guid GearBoxId { get; set; }
         public GearBox GearBox { get; set; }
@@ -20,8 +20,6 @@ namespace RentaCar.Core.Entities
         public Guid FuelTypeId { get; set; }
         public FuelType FuelType { get; set; }
         public int SeatCount { get; set; }
-        public List<Reservation> Reservations { get; set; }
-
-
+        public IEnumerable<Reservation> Reservations { get; set; }
     }
 }
