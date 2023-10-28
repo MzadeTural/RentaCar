@@ -15,6 +15,8 @@ namespace RentaCar.DataAccess.Configurations
             builder.Property(x => x.YearOfManufacture).IsRequired();
             builder.Property(x => x.FuelTypeId).IsRequired();
             builder.Property(x => x.SeatCount).IsRequired();
+            builder.Property(x => x.Price).IsRequired();
+            builder.Property(x => x.EngineVolume).IsRequired().HasMaxLength(3);
         }
     }
 }
