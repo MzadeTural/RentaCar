@@ -40,9 +40,10 @@ namespace RentaCar.Api.Controllers.v1
         }
         
         [HttpGet("{userId}/user-cars")]
-        public async Task<List<GetUserCarsDto>> GetUserCars(Guid id)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
+        public async Task<List<GetUserCarsDto>> GetUserCars(Guid userId)
         {
-           var cars=await _carService.GetUserCar(id);
+           var cars=await _carService.GetUserCar(userId);
             return cars;
         }
 
