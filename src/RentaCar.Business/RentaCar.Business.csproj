@@ -23,9 +23,11 @@
   <ItemGroup>
     <None Remove="DTOs\ModelDtos\" />
     <None Remove="Exceptions\ModelExceptions\" />
+    <None Remove="DTOs\ReservationDtos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\ModelDtos\" />
     <Folder Include="Exceptions\ModelExceptions\" />
+    <Folder Include="DTOs\ReservationDtos\" />
   </ItemGroup>
 </Project>

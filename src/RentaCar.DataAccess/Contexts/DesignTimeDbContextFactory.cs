@@ -16,7 +16,7 @@ namespace RentaCar.DataAccess.Contexts
 
             var optionsBuilder = new DbContextOptionsBuilder<RentaCarContext>();
             var connectionString = configuration.GetConnectionString("Default");
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("RentaCar.DataAccess"));
 
             return new RentaCarContext(optionsBuilder.Options);
         }

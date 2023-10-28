@@ -78,7 +78,7 @@ namespace RentaCar.Business.Services.Implementations
             ArgumentNullException.ThrowIfNull(userId);
 
             var user = _httpContextAccessor?.HttpContext?.User?.Identity;
-            var loginUser = await _userManager.FindByIdAsync(userId);
+            var loginUser = await _userManager.FindByIdAsync(userId.ToString());
             if (user?.IsAuthenticated == false)
                 throw new AuthorizationException("Please log in to view any car.", HttpStatusCode.Unauthorized);
 
