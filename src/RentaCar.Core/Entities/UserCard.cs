@@ -1,9 +1,4 @@
 ﻿using RentaCar.Core.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RentaCar.Core.Entities
 {
@@ -13,7 +8,7 @@ namespace RentaCar.Core.Entities
         public string CardNumber { get; set; }
         public string ExpireDate { get; set; }
         public string CVV { get; set; }
-        public string AppUserId { get; set; }
+        public Guid AppUserId { get; set; }
         public AppUser AppUser { get; set; }
     }
 }
