@@ -8,9 +8,10 @@ namespace RentaCar.Core.Entities
     {
         public string Name { get; set; }
         public string Adress { get; set; }
-      
+
         //767687current
-        public string UserId { get; set; }
+        
+        public Guid AppUserId { get; set; }
         public AppUser AppUser { get; set; } 
         public List<Reservation> Reservation { get; set; }
     }

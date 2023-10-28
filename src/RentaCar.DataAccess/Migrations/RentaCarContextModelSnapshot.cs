@@ -289,6 +289,10 @@ namespace RentaCar.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<double>("EngineVolume")
+                        .HasMaxLength(3)
+                        .HasColumnType("float");
+
                     b.Property<Guid>("FuelTypeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -310,6 +314,9 @@ namespace RentaCar.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("SeatCount")
                         .HasColumnType("int");
 
@@ -329,6 +336,8 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("GearBoxId")
                         .IsUnique();
+
+                    b.HasIndex("ModelId");
 
                     b.HasIndex("OwnerId");
 
@@ -460,7 +469,10 @@ namespace RentaCar.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("AppUserId")
+                    b.Property<Guid>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppUserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -471,13 +483,9 @@ namespace RentaCar.DataAccess.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId1");
 
                     b.ToTable("Locations");
                 });
@@ -772,6 +780,12 @@ namespace RentaCar.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentaCar.Core.Entities.Model", "Model")
+                        .WithMany()
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RentaCar.Core.Entities.AppUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
@@ -781,6 +795,8 @@ namespace RentaCar.DataAccess.Migrations
                     b.Navigation("FuelType");
 
                     b.Navigation("GearBox");
+
+                    b.Navigation("Model");
 
                     b.Navigation("Owner");
                 });
@@ -817,7 +833,7 @@ namespace RentaCar.DataAccess.Migrations
                 {
                     b.HasOne("RentaCar.Core.Entities.AppUser", "AppUser")
                         .WithMany("Locations")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId1");
 
                     b.Navigation("AppUser");
                 });
