@@ -100,7 +100,7 @@ namespace RentaCar.Business.Services.Implementations
         private async Task<TokenResponseDto> GenerateJwtTokenAsync(AppUser user, int accessTokenLifeTime)
         {
             var tokenResponse = await _tokenHandler.CreateAccessTokenAsync(accessTokenLifeTime, user);
-            await _userService.UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.Expiration, 2);
+            await _userService.UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.Expiration, accessTokenLifeTime);
             return tokenResponse;
         }
     }

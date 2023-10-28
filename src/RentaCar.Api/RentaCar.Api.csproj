@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Middleware\" />
+    <Folder Include="wwwroot\uploads\brands\" />
     <Folder Include="wwwroot\uploads\heros\" />
     <Folder Include="wwwroot\uploads\cars\" />
     <Folder Include="wwwroot\uploads\users\" />
