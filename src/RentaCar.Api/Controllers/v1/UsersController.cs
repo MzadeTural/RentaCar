@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RentaCar.Business.DTOs.CarDtos;
 using RentaCar.Business.DTOs.UserDtos;
 using RentaCar.Business.Enums;
 using RentaCar.Business.Services.Implementations;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace RentaCar.Api.Controllers.v1
 {
@@ -18,12 +20,14 @@ namespace RentaCar.Api.Controllers.v1
         private readonly IUserService _userService;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
+        private readonly ICarService _carService;
 
-        public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager, IAuthService authService)
+        public UsersController(IUserService userService, RoleManager<IdentityRole> roleManager, IAuthService authService, ICarService carService)
         {
             _userService = userService;
             _roleManager = roleManager;
             _authService = authService;
+            _carService = carService;
         }
 
         [HttpPost("register")]
@@ -33,6 +37,12 @@ namespace RentaCar.Api.Controllers.v1
             var response = await _userService.CreateAsync(createUserDto);
 
             return StatusCode((int)response.httpStatusCode, response.Message);
+        }
+        [HttpGet("{id}")]
+        public async Task<List<GetUserCarsDto>> Get(string id)
+        {
+           var cars=await _carService.GetUserCar(id);
+            return cars;
         }
 
         [HttpGet("confirm-email")]
