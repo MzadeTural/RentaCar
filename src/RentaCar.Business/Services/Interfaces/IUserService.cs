@@ -13,5 +13,6 @@ namespace RentaCar.Business.Services.Interfaces
     {
         Task<ResponseDTO> CreateAsync(CreateUserDto model);
         Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenEndDate, int refreshTokenLifeTime);
+        Task<List<Car>> GetUserCar(string userId);
     }
 }

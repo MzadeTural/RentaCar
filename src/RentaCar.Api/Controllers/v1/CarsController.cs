@@ -27,13 +27,17 @@ namespace RentaCar.Api.Controllers.v1
         {
             return new string[] { "value1", "value2" };
         }
-
-        // GET api/<CarController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{page}")]
+        public Task<List<LoadMoreCarDto>> LoadMore(int page) 
         {
-            return "value";
+           return _carService.LoadMore(page);       
         }
+        // GET api/<CarController>/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<CarController>
         [HttpPost]
@@ -47,15 +51,12 @@ namespace RentaCar.Api.Controllers.v1
         }
 
         // PUT api/<CarController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
-        // DELETE api/<CarController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
+       
     }
 }

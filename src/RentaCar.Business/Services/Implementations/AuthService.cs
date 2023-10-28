@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentaCar.Business.DTOs;
 using RentaCar.Business.DTOs.AuthDtos;
@@ -11,6 +12,7 @@ using RentaCar.Business.Helpers.Extensions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using System.Net;
+using System.Security.Principal;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -21,14 +23,16 @@ namespace RentaCar.Business.Services.Implementations
         private readonly IUserService _userService;
         private readonly IMailService _mailService;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(ITokenHandler tokenHandler, IUserService userService, IMailService mailService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AuthService(ITokenHandler tokenHandler, IUserService userService, IMailService mailService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IHttpContextAccessor httpContextAccessor)
         {
             _tokenHandler = tokenHandler;
             _userService = userService;
             _mailService = mailService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ResponseDTO> ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto)
@@ -58,6 +62,10 @@ namespace RentaCar.Business.Services.Implementations
 
         public async Task<LoginResponseDto> LoginAsync(LoginDto model, int accessTokenLifeTime)
         {
+            var loginCheck = _httpContextAccessor?.HttpContext?.User?.Identity;
+            if (loginCheck?.IsAuthenticated==true)
+                throw new AlreadyAuthenticationException("You are already authenticated", HttpStatusCode.BadGateway);
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user is null)
                 throw new AuthenticationFailException();
