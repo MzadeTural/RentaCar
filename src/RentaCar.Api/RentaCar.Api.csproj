@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Enums\" />
     <Folder Include="Middleware\" />
     <Folder Include="wwwroot\uploads\brands\" />
     <Folder Include="wwwroot\uploads\heros\" />
