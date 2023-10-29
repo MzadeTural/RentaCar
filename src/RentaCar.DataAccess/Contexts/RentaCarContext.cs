@@ -24,7 +24,8 @@ namespace RentaCar.DataAccess.Contexts
         public DbSet<Subscribtion> Subscribtions { get; set; }
         public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
         public DbSet<UserCard> UserCards { get; set; }
-
+        public DbSet<WishList> WishLists { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +42,8 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
             modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
+            modelBuilder.ApplyConfiguration(new WishListConfiguration());
+            modelBuilder.ApplyConfiguration(new StatusConfiguration());
             //modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             modelBuilder.Entity<Reservation>()
@@ -61,6 +64,18 @@ namespace RentaCar.DataAccess.Contexts
             .WithMany()
             .HasForeignKey(r => r.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WishList>()
+            .HasOne(wl => wl.Car)
+            .WithMany()
+            .HasForeignKey(wl => wl.CarId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reservation>()
+           .HasOne(wl => wl.TakeAwayLoaction)
+           .WithMany()
+           .HasForeignKey(wl => wl.TakeAwayLoactionId)
+           .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

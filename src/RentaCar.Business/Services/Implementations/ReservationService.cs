@@ -38,6 +38,7 @@ namespace RentaCar.Business.Services.Implementations
 
         public async Task<ResponseDTO> CreateReservationAsync(Guid carId, CreateReservationDto reservation)
         {
+            // tarixlerin kecmis tarix olmadigini yoxlamaq lazimdir.
             ArgumentNullException.ThrowIfNull(carId);
             var carModel = await _carRepository.GetSingleAysnc(x => x.Id == carId);
             var userIdString = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

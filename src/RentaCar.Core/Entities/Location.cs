@@ -1,4 +1,5 @@
-﻿using RentaCar.Core.Entities.Common;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using RentaCar.Core.Entities.Common;
 
 namespace RentaCar.Core.Entities
 {
@@ -6,6 +7,8 @@ namespace RentaCar.Core.Entities
     {
         public string Name { get; set; }
         public string Adress { get; set; }
+
+        [NotMapped]
         public IEnumerable<Reservation> Reservation { get; set; }
     }
 }
