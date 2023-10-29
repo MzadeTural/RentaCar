@@ -20,5 +20,6 @@ namespace RentaCar.Core.Entities
         public Guid DeliveryLocationId { get; set; }
         public Location Location { get; set; }
         public Guid LocationId { get; set; }
+        public bool IsAccept { get; set; }
     }
 }

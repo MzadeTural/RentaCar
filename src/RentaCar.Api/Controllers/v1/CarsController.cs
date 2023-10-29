@@ -41,7 +41,7 @@ namespace RentaCar.Api.Controllers.v1
 
         // POST api/<CarController>
         [HttpPost]
-      //  [Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Member")]
         public async Task<IActionResult> Create([FromForm] CreateCarDto createCarDto)
         {
 

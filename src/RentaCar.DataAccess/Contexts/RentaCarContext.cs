@@ -74,12 +74,12 @@ namespace RentaCar.DataAccess.Contexts
                 {
 
                     case EntityState.Modified:
-                        entry.Entity.UptadetAt = DateTime.UtcNow;
+                        entry.Entity.UptadetAt = DateTime.Now;
                         entry.Entity.UpdatedBy = "admin";
                         break;
                     case EntityState.Added:
-                        entry.Entity.UptadetAt = DateTime.UtcNow;
-                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        entry.Entity.UptadetAt = DateTime.Now;
+                        entry.Entity.CreatedAt = DateTime.Now;
                         entry.Entity.CreatedBy="admin";
                         entry.Entity.UpdatedBy="admin";
                         break;

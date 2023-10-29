@@ -29,6 +29,10 @@
     <Folder Include="wwwroot\uploads\heros\" />
     <Folder Include="wwwroot\uploads\cars\" />
     <Folder Include="wwwroot\uploads\users\" />
+    <Folder Include="wwwroot\uploads\brands\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\uploads\brands\" />
+  </ItemGroup>
 </Project>

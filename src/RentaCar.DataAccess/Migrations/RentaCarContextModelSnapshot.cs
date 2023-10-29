@@ -268,7 +268,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Car", b =>
@@ -339,7 +339,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.CarPhoto", b =>
@@ -363,7 +363,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("CarPhotos", (string)null);
+                    b.ToTable("CarPhotos");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.CurrentLoaction", b =>
@@ -386,7 +386,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("CurrentLoaction", (string)null);
+                    b.ToTable("CurrentLoaction");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.FuelType", b =>
@@ -405,7 +405,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FuelTypes", (string)null);
+                    b.ToTable("FuelTypes");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.GearBox", b =>
@@ -424,7 +424,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GearBoxes", (string)null);
+                    b.ToTable("GearBoxes");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Hero", b =>
@@ -443,7 +443,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Heroes", (string)null);
+                    b.ToTable("Heroes");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Location", b =>
@@ -472,7 +472,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Model", b =>
@@ -508,7 +508,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Models", (string)null);
+                    b.ToTable("Models");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Reservation", b =>
@@ -538,6 +538,9 @@ namespace RentaCar.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsAccept")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -579,7 +582,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.Subscribtion", b =>
@@ -615,7 +618,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subscribtions", (string)null);
+                    b.ToTable("Subscribtions");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.SubscribtionRecord", b =>
@@ -642,7 +645,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("SubscribtionId");
 
-                    b.ToTable("SubscribtionRecords", (string)null);
+                    b.ToTable("SubscribtionRecords");
                 });
 
             modelBuilder.Entity("RentaCar.Core.Entities.UserCard", b =>
@@ -692,7 +695,7 @@ namespace RentaCar.DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("UserCards", (string)null);
+                    b.ToTable("UserCards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
