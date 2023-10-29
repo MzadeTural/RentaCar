@@ -12,7 +12,6 @@ using RentaCar.Business.Helpers.Extensions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
 using System.Net;
-using System.Security.Principal;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -63,7 +62,7 @@ namespace RentaCar.Business.Services.Implementations
         public async Task<LoginResponseDto> LoginAsync(LoginDto model, int accessTokenLifeTime)
         {
             var loginCheck = _httpContextAccessor?.HttpContext?.User?.Identity;
-            if (loginCheck?.IsAuthenticated==true)
+            if (loginCheck?.IsAuthenticated == true)
                 throw new AlreadyAuthenticationException("You are already authenticated", HttpStatusCode.BadGateway);
 
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -100,7 +99,7 @@ namespace RentaCar.Business.Services.Implementations
         private async Task<TokenResponseDto> GenerateJwtTokenAsync(AppUser user, int accessTokenLifeTime)
         {
             var tokenResponse = await _tokenHandler.CreateAccessTokenAsync(accessTokenLifeTime, user);
-            await _userService.UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.Expiration, 2);
+            await _userService.UpdateRefreshToken(tokenResponse.RefreshToken, user, tokenResponse.Expiration, accessTokenLifeTime);
             return tokenResponse;
         }
     }

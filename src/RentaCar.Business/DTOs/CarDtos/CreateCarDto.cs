@@ -11,6 +11,7 @@ namespace RentaCar.Business.DTOs.CarDtos
                                   string YearOfManufacture,
                                   Guid FuelTypeId,
                                   int SeatCount,
+                                  double EngineVolume,
                                   decimal Price  );
 
 }
