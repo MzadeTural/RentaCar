@@ -21,5 +21,13 @@ namespace RentaCar.Api.Controllers.v1
             var response = await _authService.LoginAsync(loginUserDto, 15);
             return Ok(response);
         }
+
+        [HttpPost("refresh-token-login")]
+        public async Task<IActionResult> RefreshTokenLogin(string refreshToken)
+        {
+            var response = await _authService.RefreshTokenLoginAsync(refreshToken);
+
+            return Ok(response);
+        }
     }
 }

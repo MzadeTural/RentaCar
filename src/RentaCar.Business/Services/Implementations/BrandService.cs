@@ -6,10 +6,8 @@ using RentaCar.Business.DTOs.Common;
 using RentaCar.Business.Exceptions.BrandExceptions;
 using RentaCar.Business.Services.Interfaces;
 using RentaCar.Core.Entities;
-using RentaCar.DataAccess.Repositories.Implementations;
 using RentaCar.DataAccess.Repositories.Interfaces;
 using System.Net;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace RentaCar.Business.Services.Implementations
 {
@@ -97,10 +95,10 @@ namespace RentaCar.Business.Services.Implementations
         public async Task<List<GetBrandModelsDto>> GetBrandModelsAsync(Guid BrandId)
         {
             ArgumentNullException.ThrowIfNull(BrandId);
-            var brand=await _brandRepository.FindAll(b=>b.Id == BrandId,tracking:false,c=>c.Models).FirstOrDefaultAsync();
+            var brand = await _brandRepository.FindAll(b => b.Id == BrandId, tracking: false, c => c.Models).FirstOrDefaultAsync();
             var modelDtos = _mapper.Map<List<GetBrandModelsDto>>(brand?.Models);
             return modelDtos;
-           
+
         }
     }
 }

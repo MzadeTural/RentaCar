@@ -60,25 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseExceptionHandler(error =>
-{
-    error.Run(async context =>
-    {
-        var feature = context.Features.Get<IExceptionHandlerFeature>();
-        var statusCode = HttpStatusCode.InternalServerError;
-        string message = feature.Error.Message;
-        if (feature.Error is IBaseException)
-        {
-            var exception = (IBaseException)feature.Error;
-            statusCode = exception.HttpStatusCode;
-            message = exception.errorMessage;
-        }
-        var response = new ResponseDTO(statusCode, message);
-        context.Response.StatusCode = (int)statusCode;
-        await context.Response.WriteAsJsonAsync(response);
-        await context.Response.CompleteAsync();
-    });
-});
+app.UseStaticFiles();
+app.AddExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
