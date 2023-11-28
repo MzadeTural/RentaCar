@@ -18,6 +18,7 @@ namespace RentaCar.DataAccess.Contexts
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<GearBox> GearBoxes { get; set; }
         public DbSet<Hero> Heroes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<FAQ> FAQs { get; set; }
@@ -46,6 +47,7 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new WishListConfiguration());
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
             modelBuilder.ApplyConfiguration(new FAQConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
             //modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             modelBuilder.Entity<Reservation>()
