@@ -18,13 +18,16 @@ namespace RentaCar.DataAccess.Contexts
         public DbSet<FuelType> FuelTypes { get; set; }
         public DbSet<GearBox> GearBoxes { get; set; }
         public DbSet<Hero> Heroes { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Subscribtion> Subscribtions { get; set; }
         public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
         public DbSet<UserCard> UserCards { get; set; }
-
+        public DbSet<WishList> WishLists { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +44,10 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new SubscribtionConfiguration());
             modelBuilder.ApplyConfiguration(new SubscribtionRecordConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
+            modelBuilder.ApplyConfiguration(new WishListConfiguration());
+            modelBuilder.ApplyConfiguration(new StatusConfiguration());
+            modelBuilder.ApplyConfiguration(new FAQConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
             //modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             modelBuilder.Entity<Reservation>()
@@ -61,6 +68,18 @@ namespace RentaCar.DataAccess.Contexts
             .WithMany()
             .HasForeignKey(r => r.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WishList>()
+            .HasOne(wl => wl.Car)
+            .WithMany()
+            .HasForeignKey(wl => wl.CarId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reservation>()
+           .HasOne(wl => wl.TakeAwayLoaction)
+           .WithMany()
+           .HasForeignKey(wl => wl.TakeAwayLoactionId)
+           .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

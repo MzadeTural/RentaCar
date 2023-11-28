@@ -17,9 +17,10 @@ namespace RentaCar.Core.Entities
         public string EmergencyEmail { get; set; }
         public string EmetgencyPhoneNumber { get; set; }
         public Guid TakeAwayLoactionId { get; set; }
+        public Location TakeAwayLoaction { get; set; }
         public Guid DeliveryLocationId { get; set; }
-        public Location Location { get; set; }
-        public Guid LocationId { get; set; }
-        public bool IsAccept { get; set; }
+        public Location DeliveryLocation { get; set; }
+        public string Status { get; set; }
+        public bool IsConfirmed { get; set; }
     }
 }
