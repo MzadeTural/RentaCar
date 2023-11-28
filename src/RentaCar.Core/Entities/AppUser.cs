@@ -7,8 +7,12 @@ namespace RentaCar.Core.Entities
     {
         public DateTime CreatedAt { get; set; }
         public string? Fullname { get; set; }
+        public string? FinKod { get; set; }
+        public string IdentityCard { get; set; }
+        public string DriverCard { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenEndDate { get; set; }
+        public bool IsConfirmed { get; set; }
         public string ImageUrl { get; set; }
         [NotMapped]
         public IEnumerable<Reservation> Reservations { get; set; }

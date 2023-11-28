@@ -17,6 +17,7 @@ namespace RentaCar.DataAccess.Configurations
             builder.Property(x => x.SeatCount).IsRequired();
             builder.Property(x => x.Price).IsRequired();
             builder.Property(x => x.EngineVolume).IsRequired().HasMaxLength(3);
+            builder.Property(x => x.Discount).HasDefaultValue(0);
         }
     }
 }
