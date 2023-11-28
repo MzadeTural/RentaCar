@@ -20,6 +20,7 @@ namespace RentaCar.DataAccess.Contexts
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<FAQ> FAQs { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Subscribtion> Subscribtions { get; set; }
         public DbSet<SubscribtionRecord> SubscribtionRecords { get; set; }
@@ -44,6 +45,7 @@ namespace RentaCar.DataAccess.Contexts
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());
             modelBuilder.ApplyConfiguration(new WishListConfiguration());
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
+            modelBuilder.ApplyConfiguration(new FAQConfiguration());
             //modelBuilder.ApplyConfiguration(new CurrentLoactionConfiguration());
 
             modelBuilder.Entity<Reservation>()

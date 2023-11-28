@@ -11,6 +11,8 @@ namespace RentaCar.Core.Entities
         public decimal Price { get; set; }
         public double EngineVolume { get; set; }
         public AppUser Owner { get; set; }
+        public DateTime RentalStartDate { get; set; }
+        public DateTime RentalEndDate { get; set; }
         public string MainPhotoUrl { get; set; }
         public IEnumerable<CarPhoto> Photos { get; set; }
         public string Description { get; set; }

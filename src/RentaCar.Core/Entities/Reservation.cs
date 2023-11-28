@@ -20,7 +20,7 @@ namespace RentaCar.Core.Entities
         public Location TakeAwayLoaction { get; set; }
         public Guid DeliveryLocationId { get; set; }
         public Location DeliveryLocation { get; set; }
-        public Guid StatusId { get; set; }
-        public Status Status { get; set; }
+        public string Status { get; set; }
+        public bool IsConfirmed { get; set; }
     }
 }
