@@ -9,6 +9,7 @@ namespace RentaCar.Core.Entities
         public Model Model { get; set; }
         public Guid OwnerId { get; set; }
         public decimal Price { get; set; }
+        public int Discount { get; set; }
         public double EngineVolume { get; set; }
         public AppUser Owner { get; set; }
         public DateTime RentalStartDate { get; set; }

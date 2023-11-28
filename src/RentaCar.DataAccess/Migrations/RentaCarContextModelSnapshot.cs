@@ -302,6 +302,11 @@ namespace RentaCar.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<int>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<double>("EngineVolume")
                         .HasMaxLength(3)
                         .HasColumnType("float");
