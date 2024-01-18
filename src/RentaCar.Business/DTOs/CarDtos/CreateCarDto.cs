@@ -9,6 +9,8 @@ namespace RentaCar.Business.DTOs.CarDtos
                                   string Description,
                                   Guid GearBoxId,
                                   string YearOfManufacture,
+                                  DateTime RentalStartDate,
+                                  DateTime RentalEndDate,
                                   Guid FuelTypeId,
                                   int SeatCount,
                                   double EngineVolume,
